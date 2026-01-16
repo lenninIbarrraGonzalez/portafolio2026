@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
+import { ClientWrapper } from '@/components/ClientWrapper';
 import '../globals.css';
 
 const inter = Inter({
@@ -61,7 +62,7 @@ export default async function LocaleLayout({
         className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <ClientWrapper>{children}</ClientWrapper>
         </NextIntlClientProvider>
       </body>
     </html>

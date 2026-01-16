@@ -3,8 +3,16 @@
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
 import { fadeInUp, staggerContainerFast } from '@/lib/animations';
+import { MagneticButton } from '@/components/ui/MagneticButton';
+import { TypewriterTitle } from '@/components/TypewriterTitle';
+
+const HeroScene = dynamic(
+  () => import('@/components/three/HeroScene').then((mod) => mod.HeroScene),
+  { ssr: false }
+);
 
 const socialLinks = [
   { icon: Github, href: 'https://github.com/satanas', label: 'GitHub' },
@@ -29,9 +37,22 @@ export function Hero() {
     }
   };
 
+  const roles = [
+    'Frontend Developer',
+    'React Expert',
+    'UI Engineer',
+    'TypeScript Enthusiast',
+  ];
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-16 lg:pt-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative min-h-screen flex items-center justify-center pt-16 lg:pt-20 overflow-hidden">
+      {/* 3D Background */}
+      <HeroScene />
+
+      {/* Grid Pattern Overlay */}
+      <div className="absolute inset-0 grid-pattern opacity-50" />
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           variants={staggerContainerFast}
           initial="hidden"
@@ -49,16 +70,16 @@ export function Hero() {
 
             <motion.h1
               variants={fadeInUp}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4"
             >
-              {t('name')}
+              <span className="gradient-text">{t('name')}</span>
             </motion.h1>
 
             <motion.h2
               variants={fadeInUp}
-              className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-primary mb-6"
+              className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-primary mb-6 h-[1.2em]"
             >
-              {t('title')}
+              <TypewriterTitle strings={roles} />
             </motion.h2>
 
             <motion.p
@@ -73,22 +94,18 @@ export function Hero() {
               variants={fadeInUp}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8"
             >
-              <motion.button
+              <MagneticButton
                 onClick={handleScrollToProjects}
-                className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors pulse-glow"
               >
                 {t('cta')}
-              </motion.button>
-              <motion.button
+              </MagneticButton>
+              <MagneticButton
                 onClick={handleScrollToContact}
                 className="px-8 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 {t('contact')}
-              </motion.button>
+              </MagneticButton>
             </motion.div>
 
             {/* Social Links */}
@@ -97,18 +114,17 @@ export function Hero() {
               className="flex gap-4 justify-center lg:justify-start"
             >
               {socialLinks.map((social) => (
-                <motion.a
+                <MagneticButton
                   key={social.label}
+                  as="a"
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  aria-label={social.label}
+                  strength={0.3}
                 >
                   <social.icon className="w-5 h-5" />
-                </motion.a>
+                </MagneticButton>
               ))}
             </motion.div>
           </div>
@@ -116,7 +132,28 @@ export function Hero() {
           {/* Profile Image */}
           <motion.div variants={fadeInUp} className="relative">
             <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
+              {/* Animated glow ring */}
+              <motion.div
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background: 'linear-gradient(135deg, var(--accent-orange), var(--accent-green), var(--accent-blue))',
+                  padding: '4px',
+                }}
+                animate={{
+                  rotate: [0, 360],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: 'linear',
+                }}
+              >
+                <div className="absolute inset-1 bg-background rounded-full" />
+              </motion.div>
+
+              {/* Blur glow */}
               <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl" />
+
               <Image
                 src="/images/lenninibarra.jpeg"
                 alt="Lennin Ibarra"
