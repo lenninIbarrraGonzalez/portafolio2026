@@ -1,0 +1,212 @@
+{
+  "metadata": {
+    "title": "Lennin Ibarra | Senior Frontend Engineer",
+    "description": "Portafolio profesional de Lennin Ibarra, Senior Frontend Engineer con más de 10 años de experiencia en desarrollo web"
+  },
+  "header": {
+    "about": "Sobre mí",
+    "experience": "Experiencia",
+    "skills": "Habilidades",
+    "projects": "Proyectos",
+    "testimonials": "Testimonios",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "greeting": "Hola, soy",
+    "name": "Lennin Ibarra",
+    "title": "Senior Frontend Engineer",
+    "subtitle": "Construyendo experiencias digitales excepcionales con más de 10 años de pasión por el código",
+    "cta": "Ver proyectos",
+    "contact": "Contáctame"
+  },
+  "about": {
+    "title": "Sobre mí",
+    "description": "Soy un desarrollador frontend apasionado con más de una década de experiencia construyendo aplicaciones web modernas y escalables. Me especializo en React, TypeScript y arquitecturas frontend que priorizan la experiencia del usuario y el rendimiento.",
+    "experience": "{years} años de experiencia",
+    "location": "Colombia",
+    "highlights": {
+      "projects": "+50 proyectos",
+      "companies": "+6 empresas",
+      "technologies": "+20 tecnologías"
+    }
+  },
+  "experience": {
+    "title": "Experiencia Profesional",
+    "present": "Presente",
+    "jobs": {
+      "monks": {
+        "company": "Media.Monks",
+        "role": "Senior Frontend Engineer",
+        "period": "2022 - Presente",
+        "description": "Desarrollo de plataformas de streaming y aplicaciones web de alto rendimiento para clientes enterprise.",
+        "highlights": [
+          "Liderazgo técnico en proyecto DITU para Caracol TV",
+          "Arquitectura de componentes con React y TypeScript",
+          "Optimización de rendimiento y Core Web Vitals"
+        ]
+      },
+      "hoitsu": {
+        "company": "Hoitsu",
+        "role": "Senior Frontend Developer",
+        "period": "2021 - 2022",
+        "description": "Desarrollo de herramientas de automatización empresarial y editores de procesos BPMN.",
+        "highlights": [
+          "Desarrollo de editor visual de procesos empresariales",
+          "Integración con APIs de automatización",
+          "Implementación de drag & drop avanzado"
+        ]
+      },
+      "comfama": {
+        "company": "Comfama",
+        "role": "Frontend Developer",
+        "period": "2020 - 2021",
+        "description": "Desarrollo de portales digitales y aplicaciones de servicios para una de las cajas de compensación más grandes de Colombia.",
+        "highlights": [
+          "Migración de aplicaciones legacy a React",
+          "Desarrollo de componentes accesibles",
+          "Integración con sistemas de autenticación"
+        ]
+      },
+      "itglobers": {
+        "company": "IT Globers",
+        "role": "Frontend Developer",
+        "period": "2019 - 2020",
+        "description": "Desarrollo de soluciones e-commerce con VTEX IO y React.",
+        "highlights": [
+          "Desarrollo de tiendas online personalizadas",
+          "Componentes reutilizables para VTEX IO",
+          "Optimización de conversión y UX"
+        ]
+      },
+      "indra": {
+        "company": "Indra",
+        "role": "Frontend Developer",
+        "period": "2017 - 2019",
+        "description": "Desarrollo de plataformas de e-commerce para clientes de telecomunicaciones.",
+        "highlights": [
+          "Desarrollo de e-commerce para Tigo Colombia",
+          "Implementación de flujos de compra complejos",
+          "Integración con pasarelas de pago"
+        ]
+      },
+      "parquesoft": {
+        "company": "ParqueSoft Nariño",
+        "role": "Web Developer",
+        "period": "2014 - 2017",
+        "description": "Desarrollo de aplicaciones web para gobierno y sector público.",
+        "highlights": [
+          "Sistemas de participación ciudadana",
+          "Plataformas PQRD para entidades gubernamentales",
+          "Aplicaciones móviles híbridas"
+        ]
+      }
+    }
+  },
+  "skills": {
+    "title": "Habilidades Técnicas",
+    "categories": {
+      "frontend": {
+        "title": "Frontend",
+        "skills": ["React", "Next.js", "TypeScript", "Vue.js", "Tailwind CSS", "Framer Motion"]
+      },
+      "backend": {
+        "title": "Backend",
+        "skills": ["Node.js", "Python", "REST APIs", "GraphQL", "PostgreSQL", "MongoDB"]
+      },
+      "tools": {
+        "title": "Herramientas",
+        "skills": ["Git", "Docker", "AWS", "Vercel", "Figma", "Jest"]
+      },
+      "soft": {
+        "title": "Habilidades Blandas",
+        "skills": ["Liderazgo técnico", "Mentoría", "Comunicación", "Trabajo en equipo", "Resolución de problemas", "Inglés profesional"]
+      }
+    }
+  },
+  "projects": {
+    "title": "Proyectos Destacados",
+    "viewProject": "Ver proyecto",
+    "viewCode": "Ver código",
+    "items": {
+      "ditu": {
+        "title": "DITU - Plataforma de Streaming",
+        "description": "Plataforma de streaming para Caracol TV desarrollada en Media.Monks. Arquitectura moderna con React y optimización de rendimiento para millones de usuarios.",
+        "tags": ["React", "TypeScript", "Next.js", "Streaming"]
+      },
+      "bpmn": {
+        "title": "Editor de Procesos BPMN",
+        "description": "Editor visual de procesos empresariales para Hoitsu. Permite diseñar y automatizar flujos de trabajo con drag & drop intuitivo.",
+        "tags": ["React", "BPMN", "Drag & Drop", "Canvas"]
+      },
+      "tigo": {
+        "title": "E-commerce Tigo",
+        "description": "Plataforma de e-commerce para Tigo Colombia desarrollada en Indra. Flujos de compra optimizados y integración con múltiples pasarelas de pago.",
+        "tags": ["React", "E-commerce", "Payment Gateway"]
+      },
+      "romancerelax": {
+        "title": "Romance Relax E-commerce",
+        "description": "Tienda online desarrollada con VTEX IO para IT Globers. Experiencia de compra personalizada y alto rendimiento.",
+        "tags": ["VTEX IO", "React", "E-commerce"]
+      },
+      "informando": {
+        "title": "Informando - Participación Ciudadana",
+        "description": "Aplicación de participación ciudadana desarrollada para ParqueSoft Nariño. Permite a ciudadanos reportar y dar seguimiento a problemáticas locales.",
+        "tags": ["Ionic", "Angular", "Mobile", "Gobierno"]
+      },
+      "pqrd": {
+        "title": "Sistema PQRD Gubernamental",
+        "description": "Sistema de Peticiones, Quejas, Reclamos y Denuncias para entidades gubernamentales. Gestión completa del ciclo de atención al ciudadano.",
+        "tags": ["Angular", "Node.js", "PostgreSQL", "Gobierno"]
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Testimonios",
+    "items": {
+      "monks": {
+        "text": "Lennin es un desarrollador excepcional que siempre entrega código de alta calidad. Su capacidad para resolver problemas complejos y liderar equipos técnicos es sobresaliente.",
+        "author": "Tech Lead",
+        "company": "Media.Monks"
+      },
+      "hoitsu": {
+        "text": "Su expertise en React y su atención al detalle en la experiencia de usuario fueron fundamentales para el éxito de nuestro producto.",
+        "author": "Product Manager",
+        "company": "Hoitsu"
+      },
+      "itglobers": {
+        "text": "Un profesional comprometido que entiende las necesidades del negocio y las traduce en soluciones técnicas elegantes.",
+        "author": "CEO",
+        "company": "IT Globers"
+      }
+    }
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "¿Tienes un proyecto en mente? ¡Hablemos!",
+    "form": {
+      "name": "Nombre",
+      "email": "Email",
+      "message": "Mensaje",
+      "send": "Enviar mensaje",
+      "sending": "Enviando...",
+      "success": "¡Mensaje enviado correctamente!",
+      "error": "Error al enviar el mensaje. Intenta de nuevo."
+    },
+    "social": {
+      "title": "También puedes encontrarme en"
+    }
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados",
+    "madeWith": "Hecho con",
+    "and": "y",
+    "coffee": "café"
+  },
+  "common": {
+    "language": "Idioma",
+    "spanish": "Español",
+    "english": "English",
+    "darkMode": "Modo oscuro",
+    "lightMode": "Modo claro"
+  }
+}
