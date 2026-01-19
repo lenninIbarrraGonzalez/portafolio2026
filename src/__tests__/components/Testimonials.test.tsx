@@ -50,7 +50,7 @@ describe('Testimonials', () => {
 
   it('has responsive padding classes', () => {
     render(<Testimonials />);
-    expect(document.querySelector('.py-12')).toBeInTheDocument();
+    expect(document.querySelector('.py-8')).toBeInTheDocument();
   });
 
   it('has responsive grid layout', () => {

@@ -49,7 +49,7 @@ describe('Skills', () => {
 
   it('has responsive padding classes', () => {
     render(<Skills />);
-    expect(document.querySelector('.py-12')).toBeInTheDocument();
+    expect(document.querySelector('.py-8')).toBeInTheDocument();
   });
 
   it('renders skill items with hover effects', () => {

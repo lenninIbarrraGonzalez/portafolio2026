@@ -70,7 +70,7 @@ describe('CallToAction', () => {
 
   it('has responsive padding', () => {
     render(<CallToAction />);
-    expect(document.querySelector('.py-12')).toBeInTheDocument();
+    expect(document.querySelector('.py-8')).toBeInTheDocument();
   });
 
   it('has rounded card container', () => {

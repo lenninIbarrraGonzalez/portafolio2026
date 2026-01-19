@@ -55,7 +55,7 @@ describe('Education', () => {
 
   it('has responsive padding classes', () => {
     render(<Education />);
-    expect(document.querySelector('.py-12')).toBeInTheDocument();
+    expect(document.querySelector('.py-8')).toBeInTheDocument();
   });
 
   it('renders tabs container', () => {

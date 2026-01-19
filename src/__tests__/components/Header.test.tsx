@@ -10,7 +10,7 @@ describe('Header', () => {
 
   it('renders the logo', () => {
     render(<Header />);
-    expect(screen.getByText('LI')).toBeInTheDocument();
+    expect(screen.getByText('@lennin')).toBeInTheDocument();
   });
 
   it('renders navigation items', () => {

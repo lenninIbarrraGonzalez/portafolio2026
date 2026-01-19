@@ -24,6 +24,10 @@ jest.mock('@/components/ui/SmoothScroll', () => ({
   ),
 }));
 
+jest.mock('@/components/ThemeProvider', () => ({
+  ThemeProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+
 describe('ClientWrapper', () => {
   beforeEach(() => {
     jest.useFakeTimers();
