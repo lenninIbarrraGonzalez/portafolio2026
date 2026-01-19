@@ -130,7 +130,7 @@ export default async function LocaleLayout({
     jobTitle: 'Senior Frontend Engineer',
     url: BASE_URL,
     sameAs: [
-      'https://github.com/satanas',
+      'https://github.com/lenninIbarrraGonzalez',
       'https://www.linkedin.com/in/lennin-geovanny-ibarra/',
     ],
     knowsAbout: [

@@ -30,14 +30,14 @@ export const PERSONAL_INFO = {
 
 // Social links for Hero section
 export const HERO_SOCIAL_LINKS: SocialLink[] = [
-  { icon: Github, href: 'https://github.com/satanas', label: 'GitHub' },
+  { icon: Github, href: 'https://github.com/lenninIbarrraGonzalez', label: 'GitHub' },
   { icon: Linkedin, href: 'https://www.linkedin.com/in/lennin-geovanny-ibarra/', label: 'LinkedIn' },
   { icon: WhatsAppIcon, href: `https://wa.me/${PERSONAL_INFO.phone.replace('+', '')}`, label: 'WhatsApp' },
 ];
 
 // Social links for Contact section
 export const CONTACT_SOCIAL_LINKS: SocialLink[] = [
-  { icon: Github, href: 'https://github.com/satanas', label: 'GitHub' },
+  { icon: Github, href: 'https://github.com/lenninIbarrraGonzalez', label: 'GitHub' },
   { icon: Linkedin, href: 'https://www.linkedin.com/in/lennin-geovanny-ibarra/', label: 'LinkedIn' },
   { icon: Mail, href: `mailto:${PERSONAL_INFO.email}`, label: 'Email' },
 ];

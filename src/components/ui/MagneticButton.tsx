@@ -24,7 +24,7 @@ export function MagneticButton({
   href,
   target,
   rel,
-  strength = 0.4,
+  strength = 0.15,
   download,
   'aria-label': ariaLabel,
 }: MagneticButtonProps) {
@@ -63,9 +63,9 @@ export function MagneticButton({
 
   const springTransition = {
     type: 'spring' as const,
-    stiffness: 350,
-    damping: 15,
-    mass: 0.5,
+    stiffness: 200,
+    damping: 20,
+    mass: 0.8,
   };
 
   if (as === 'a') {
