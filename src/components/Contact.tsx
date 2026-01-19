@@ -65,13 +65,13 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 lg:py-32 bg-secondary/30" ref={ref}>
+    <section id="contact" className="py-8 sm:py-10 lg:py-14 bg-secondary/30" ref={ref}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center mb-10"
         >
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
             {t('title')}

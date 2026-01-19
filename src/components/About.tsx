@@ -18,7 +18,7 @@ export function About() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="about" className="py-12 sm:py-16 lg:py-32" ref={ref}>
+    <section id="about" className="py-8 sm:py-10 lg:py-14" ref={ref}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={staggerContainerSlow}

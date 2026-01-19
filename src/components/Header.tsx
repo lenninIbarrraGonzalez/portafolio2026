@@ -84,11 +84,15 @@ export function Header() {
           {/* Logo */}
           <motion.a
             href="#"
-            className="text-xl font-bold text-foreground"
+            className="relative group"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            LI
+            <div className="flex items-center gap-1 px-3 py-1.5 bg-primary/10 border border-primary/30 rounded-lg transition-all duration-300 group-hover:bg-primary/20 group-hover:border-primary/50 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+              <span className="text-primary/60 font-mono text-sm">{"{"}</span>
+              <span className="font-semibold text-primary">@lennin</span>
+              <span className="text-primary/60 font-mono text-sm">{"}"}</span>
+            </div>
           </motion.a>
 
           {/* Desktop Navigation */}

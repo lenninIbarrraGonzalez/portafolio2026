@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 /* ===========================================
    PROPUESTA 3: BENTO GRID MODERNO
    - Estilo Apple/Linear
@@ -84,7 +89,7 @@
   --color-card-foreground: var(--card-foreground);
   --color-border: var(--border);
   --color-ring: var(--ring);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-jetbrains-mono);
   --font-mono: var(--font-jetbrains-mono);
 }
 

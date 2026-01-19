@@ -59,7 +59,7 @@ export function Hero() {
 
             <motion.h2
               variants={fadeInUp}
-              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-primary mb-6 h-[1.2em]"
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-primary mb-10 h-[1.2em]"
             >
               <TypewriterTitle strings={roles} />
             </motion.h2>
@@ -97,7 +97,7 @@ export function Hero() {
                 download
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-2.5 sm:px-8 sm:py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-colors flex items-center gap-2"
+                className="px-6 py-2.5 sm:px-8 sm:py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-colors flex items-center justify-center gap-2"
               >
                 <Download className="w-4 h-4" />
                 {t('downloadCV')}

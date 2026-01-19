@@ -255,7 +255,7 @@
       "informando": {
         "title": "Informando - Participación Ciudadana",
         "description": "Aplicación de participación ciudadana desarrollada para ParqueSoft Nariño. Permite a ciudadanos reportar y dar seguimiento a problemáticas locales.",
-        "tags": ["Ionic", "Angular", "Mobile", "Gobierno"]
+        "tags": ["Ushahidi", "Google Maps", "Mobile", "Gobierno"]
       },
       "pqrd": {
         "title": "Sistema PQRD Gubernamental",

@@ -19,7 +19,7 @@ export function Education() {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <section id="education" className="py-12 sm:py-16 lg:py-32" ref={containerRef}>
+    <section id="education" className="py-8 sm:py-10 lg:py-14" ref={containerRef}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -18,7 +18,7 @@ export function CallToAction() {
   const isInView = useInView(containerRef, { once: true, margin: '-100px' });
 
   return (
-    <section id="contact" ref={containerRef} className="py-12 sm:py-16 lg:py-32">
+    <section id="contact" ref={containerRef} className="py-8 sm:py-10 lg:py-14">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl">
           {/* Animated background blobs - behind card */}

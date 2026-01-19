@@ -255,7 +255,7 @@
       "informando": {
         "title": "Informando - Citizen Participation",
         "description": "Citizen participation application developed for ParqueSoft Nariño. Allows citizens to report and track local issues.",
-        "tags": ["Ionic", "Angular", "Mobile", "Government"]
+        "tags": ["Ushahidi", "Google Maps", "Mobile", "Government"]
       },
       "pqrd": {
         "title": "Government PQRD System",
