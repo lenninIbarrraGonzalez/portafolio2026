@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 
 interface MagneticButtonProps {
@@ -12,6 +12,8 @@ interface MagneticButtonProps {
   target?: string;
   rel?: string;
   strength?: number;
+  download?: boolean;
+  'aria-label'?: string;
 }
 
 export function MagneticButton({
@@ -23,14 +25,25 @@ export function MagneticButton({
   target,
   rel,
   strength = 0.4,
+  download,
+  'aria-label': ariaLabel,
 }: MagneticButtonProps) {
   const ref = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!ref.current) return;
+  // Cache bounding rect to avoid layout thrashing
+  const rectRef = useRef<DOMRect | null>(null);
 
-    const rect = ref.current.getBoundingClientRect();
+  const handleMouseEnter = useCallback(() => {
+    if (ref.current) {
+      rectRef.current = ref.current.getBoundingClientRect();
+    }
+  }, []);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!rectRef.current) return;
+
+    const rect = rectRef.current;
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
@@ -41,11 +54,12 @@ export function MagneticButton({
       x: distanceX * strength,
       y: distanceY * strength,
     });
-  };
+  }, [strength]);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setPosition({ x: 0, y: 0 });
-  };
+    rectRef.current = null;
+  }, []);
 
   const springTransition = {
     type: 'spring' as const,
@@ -61,8 +75,11 @@ export function MagneticButton({
         href={href}
         target={target}
         rel={rel}
+        download={download}
+        aria-label={ariaLabel}
         className={className}
         onClick={onClick}
+        onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         animate={position}
@@ -78,6 +95,8 @@ export function MagneticButton({
       ref={ref as React.RefObject<HTMLButtonElement>}
       className={className}
       onClick={onClick}
+      aria-label={ariaLabel}
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       animate={position}

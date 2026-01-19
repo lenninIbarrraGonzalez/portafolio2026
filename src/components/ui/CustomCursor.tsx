@@ -1,7 +1,10 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
+
+// WeakMap to track elements that have listeners attached
+const listenersAttached = new WeakSet<Element>();
 
 export function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
@@ -16,6 +19,12 @@ export function CustomCursor() {
   const springConfig = { damping: 25, stiffness: 400 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
+
+  // Stable event handlers using useCallback
+  const handleInteractiveEnter = useCallback(() => setIsHovering(true), []);
+  const handleInteractiveLeave = useCallback(() => setIsHovering(false), []);
+  const handleImageEnter = useCallback(() => setIsHoveringImage(true), []);
+  const handleImageLeave = useCallback(() => setIsHoveringImage(false), []);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -46,13 +55,21 @@ export function CustomCursor() {
       const imageElements = document.querySelectorAll('img, [data-cursor-expand]');
 
       interactiveElements.forEach((el) => {
-        el.addEventListener('mouseenter', () => setIsHovering(true));
-        el.addEventListener('mouseleave', () => setIsHovering(false));
+        // Only add listeners if not already attached
+        if (!listenersAttached.has(el)) {
+          el.addEventListener('mouseenter', handleInteractiveEnter);
+          el.addEventListener('mouseleave', handleInteractiveLeave);
+          listenersAttached.add(el);
+        }
       });
 
       imageElements.forEach((el) => {
-        el.addEventListener('mouseenter', () => setIsHoveringImage(true));
-        el.addEventListener('mouseleave', () => setIsHoveringImage(false));
+        // Only add listeners if not already attached
+        if (!listenersAttached.has(el)) {
+          el.addEventListener('mouseenter', handleImageEnter);
+          el.addEventListener('mouseleave', handleImageLeave);
+          listenersAttached.add(el);
+        }
       });
     };
 
@@ -71,7 +88,7 @@ export function CustomCursor() {
       document.body.removeEventListener('mouseleave', handleMouseLeave);
       observer.disconnect();
     };
-  }, [cursorX, cursorY, isVisible, isMobile]);
+  }, [cursorX, cursorY, isVisible, isMobile, handleInteractiveEnter, handleInteractiveLeave, handleImageEnter, handleImageLeave]);
 
   if (isMobile) return null;
 
@@ -80,7 +97,7 @@ export function CustomCursor() {
       {/* Cursor pequeño - sigue exactamente */}
       <motion.div
         ref={cursorRef}
-        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
+        className="fixed top-0 left-0 pointer-events-none z-[9999]"
         style={{
           x: cursorX,
           y: cursorY,
@@ -91,8 +108,8 @@ export function CustomCursor() {
         <motion.div
           className="rounded-full bg-white"
           animate={{
-            width: isHovering ? 0 : isHoveringImage ? 0 : 8,
-            height: isHovering ? 0 : isHoveringImage ? 0 : 8,
+            width: 8,
+            height: 8,
             opacity: isVisible ? 1 : 0,
           }}
           transition={{ duration: 0.15 }}

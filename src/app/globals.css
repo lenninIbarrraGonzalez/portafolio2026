@@ -138,6 +138,12 @@ html {
   }
 }
 
+@media (max-width: 480px) {
+  .bento-grid {
+    gap: 0.75rem;
+  }
+}
+
 /* Bento Card sizes */
 .bento-card {
   background: var(--card);
@@ -146,6 +152,13 @@ html {
   box-shadow: var(--shadow-md);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
+}
+
+@media (max-width: 480px) {
+  .bento-card {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
 }
 
 .bento-card:hover {
@@ -264,13 +277,25 @@ html {
 
 /* Stats con count-up effect (placeholder) */
 .stat-number {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 700;
   line-height: 1;
   background: linear-gradient(135deg, var(--accent-orange), var(--accent-green));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+@media (min-width: 640px) {
+  .stat-number {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .stat-number {
+    font-size: 3rem;
+  }
 }
 
 /* Imagen con zoom en hover */

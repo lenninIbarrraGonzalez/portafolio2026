@@ -52,7 +52,7 @@ export function Projects() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="projects" className="py-20 lg:py-32 bg-secondary/30" ref={ref}>
+    <section id="projects" className="py-12 sm:py-16 lg:py-32 bg-secondary/30" ref={ref}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -60,7 +60,7 @@ export function Projects() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
             {t('title')}
           </h2>
           <div className="w-20 h-1 bg-primary mx-auto rounded-full" />
@@ -70,7 +70,7 @@ export function Projects() {
           variants={staggerContainer}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
         >
           {projects.map((project) => (
             <motion.article
@@ -85,7 +85,9 @@ export function Projects() {
                   src={project.image}
                   alt={t(`items.${project.key}.title`)}
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -121,8 +123,8 @@ export function Projects() {
               </div>
 
               {/* Project Info */}
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-foreground mb-2">
+              <div className="p-4 sm:p-5 md:p-6">
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">
                   {t(`items.${project.key}.title`)}
                 </h3>
                 <p className="text-muted-foreground text-sm mb-4 line-clamp-3">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface LoadingScreenProps {
@@ -14,6 +14,18 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [showLoading, setShowLoading] = useState(true);
   const [glitchActive, setGlitchActive] = useState(false);
 
+  // Use refs to track all timers and intervals
+  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const lineIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const completeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const glitchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isCompleteTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hideLoadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Memoize onComplete to prevent dependency issues
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+
   const codeLines = [
     '> Initializing portfolio...',
     '> Loading components...',
@@ -23,12 +35,21 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     '> Ready!',
   ];
 
+  const clearAllTimers = useCallback(() => {
+    if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
+    if (lineIntervalRef.current) clearInterval(lineIntervalRef.current);
+    if (completeTimeoutRef.current) clearTimeout(completeTimeoutRef.current);
+    if (glitchTimeoutRef.current) clearTimeout(glitchTimeoutRef.current);
+    if (isCompleteTimeoutRef.current) clearTimeout(isCompleteTimeoutRef.current);
+    if (hideLoadingTimeoutRef.current) clearTimeout(hideLoadingTimeoutRef.current);
+  }, []);
+
   useEffect(() => {
     // Check if user has already seen loading screen in this session
     const hasSeenLoading = sessionStorage.getItem('hasSeenLoading');
     if (hasSeenLoading) {
       setShowLoading(false);
-      onComplete?.();
+      onCompleteRef.current?.();
       return;
     }
 
@@ -37,12 +58,12 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     if (prefersReducedMotion) {
       setShowLoading(false);
       sessionStorage.setItem('hasSeenLoading', 'true');
-      onComplete?.();
+      onCompleteRef.current?.();
       return;
     }
 
     // Simulate loading progress
-    const progressInterval = setInterval(() => {
+    progressIntervalRef.current = setInterval(() => {
       setProgress((prev) => {
         const increment = Math.random() * 15 + 5;
         const newProgress = Math.min(prev + increment, 100);
@@ -51,7 +72,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     }, 200);
 
     // Show code lines progressively
-    const lineInterval = setInterval(() => {
+    lineIntervalRef.current = setInterval(() => {
       setCurrentLine((prev) => {
         if (prev < codeLines.length - 1) {
           return prev + 1;
@@ -61,30 +82,26 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     }, 400);
 
     // Complete loading
-    const completeTimeout = setTimeout(() => {
+    completeTimeoutRef.current = setTimeout(() => {
       setProgress(100);
       setCurrentLine(codeLines.length - 1);
 
       // Trigger glitch effect
       setGlitchActive(true);
-      setTimeout(() => setGlitchActive(false), 300);
+      glitchTimeoutRef.current = setTimeout(() => setGlitchActive(false), 300);
 
-      setTimeout(() => {
+      isCompleteTimeoutRef.current = setTimeout(() => {
         setIsComplete(true);
         sessionStorage.setItem('hasSeenLoading', 'true');
-        setTimeout(() => {
+        hideLoadingTimeoutRef.current = setTimeout(() => {
           setShowLoading(false);
-          onComplete?.();
+          onCompleteRef.current?.();
         }, 500);
       }, 500);
     }, 2500);
 
-    return () => {
-      clearInterval(progressInterval);
-      clearInterval(lineInterval);
-      clearTimeout(completeTimeout);
-    };
-  }, [onComplete]);
+    return clearAllTimers;
+  }, [clearAllTimers, codeLines.length]);
 
   if (!showLoading) return null;
 

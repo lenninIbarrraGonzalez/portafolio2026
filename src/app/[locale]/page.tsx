@@ -4,11 +4,13 @@ import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
 import { About } from '@/components/About';
 import { Experience } from '@/components/Experience';
+import { Education } from '@/components/Education';
 import { Skills } from '@/components/Skills';
 import { ProjectsCarousel } from '@/components/ProjectsCarousel';
-import { LogoMarquee } from '@/components/LogoMarquee';
 import { Testimonials } from '@/components/Testimonials';
+import { CallToAction } from '@/components/CallToAction';
 import { Footer } from '@/components/Footer';
+import { ScrollToTop } from '@/components/ui/ScrollToTop';
 
 export default function Home() {
   return (
@@ -18,12 +20,14 @@ export default function Home() {
         <Hero />
         <About />
         <Experience />
-        <Skills />
         <ProjectsCarousel />
-        <LogoMarquee />
+        <Education />
+        <Skills />
         <Testimonials />
+        <CallToAction />
       </main>
       <Footer />
+      <ScrollToTop />
     </>
   );
 }

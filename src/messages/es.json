@@ -6,6 +6,7 @@
   "header": {
     "about": "Sobre mí",
     "experience": "Experiencia",
+    "education": "Formación",
     "skills": "Habilidades",
     "projects": "Proyectos",
     "testimonials": "Testimonios",
@@ -17,13 +18,22 @@
     "title": "Senior Frontend Engineer",
     "subtitle": "Construyendo experiencias digitales excepcionales con más de 10 años de pasión por el código",
     "cta": "Ver proyectos",
-    "contact": "Contáctame"
+    "contact": "Contáctame",
+    "technologies": "Tecnologías que domino",
+    "downloadCV": "Descargar CV",
+    "scrollDown": "Desplazar hacia abajo",
+    "roles": [
+      "Desarrollador Frontend",
+      "Experto en React",
+      "Desarrollo con IA",
+      "Entusiasta de TypeScript"
+    ]
   },
   "about": {
     "title": "Sobre mí",
     "description": "Soy un desarrollador frontend apasionado con más de una década de experiencia construyendo aplicaciones web modernas y escalables. Me especializo en React, TypeScript y arquitecturas frontend que priorizan la experiencia del usuario y el rendimiento.",
     "experience": "{years} años de experiencia",
-    "location": "Colombia",
+    "location": "Bogotá - Colombia",
     "highlights": {
       "projects": "+50 proyectos",
       "companies": "+6 empresas",
@@ -33,72 +43,166 @@
   "experience": {
     "title": "Experiencia Profesional",
     "present": "Presente",
+    "achievementsTitle": "Logros Destacados",
     "jobs": {
       "monks": {
-        "company": "Media.Monks",
-        "role": "Senior Frontend Engineer",
-        "period": "2022 - Presente",
-        "description": "Desarrollo de plataformas de streaming y aplicaciones web de alto rendimiento para clientes enterprise.",
+        "company": "Monks",
+        "role": "Front-End Architect",
+        "period": "nov 2025 - Presente",
+        "description": "Lideré la refactorización del reproductor de video DITU para Caracol TV, transformando un componente monolítico en arquitectura modular escalable.",
         "highlights": [
-          "Liderazgo técnico en proyecto DITU para Caracol TV",
-          "Arquitectura de componentes con React y TypeScript",
-          "Optimización de rendimiento y Core Web Vitals"
+          "Arquitectura modular +13 módulos",
+          "Suite pruebas unitarias completa",
+          "Analytics NPAW + Google IMA"
+        ],
+        "achievements": [
+          "Redujo regresiones en producción",
+          "Documentación técnica y onboarding",
+          "Optimización gestión de perfiles",
+          "Limpieza código legacy",
+          "Firebase Analytics integrado",
+          "Monorepo Yarn Workspaces"
         ]
       },
       "hoitsu": {
         "company": "Hoitsu",
-        "role": "Senior Frontend Developer",
-        "period": "2021 - 2022",
-        "description": "Desarrollo de herramientas de automatización empresarial y editores de procesos BPMN.",
+        "role": "Front-End Architect",
+        "period": "jul 2025 - nov 2025",
+        "description": "Desarrollé aplicación web para diseñar diagramas BPMN 2.0 con Next.js 16 y React 19, integrando editor visual interactivo y comunicación GraphQL en tiempo real.",
         "highlights": [
-          "Desarrollo de editor visual de procesos empresariales",
-          "Integración con APIs de automatización",
-          "Implementación de drag & drop avanzado"
+          "Editor BPMN 2.0 con bpmn-js",
+          "GraphQL + sync tiempo real",
+          "UI shadcn/ui + Tailwind"
+        ],
+        "achievements": [
+          "Sistema multiidioma ES/EN",
+          "Autenticación OAuth segura",
+          "Estado global con Zustand",
+          "Tipos TypeScript automáticos",
+          "UI responsive shadcn/ui",
+          "ESLint + Prettier configurado"
         ]
       },
       "comfama": {
         "company": "Comfama",
-        "role": "Frontend Developer",
-        "period": "2020 - 2021",
-        "description": "Desarrollo de portales digitales y aplicaciones de servicios para una de las cajas de compensación más grandes de Colombia.",
+        "role": "Front-End Architect",
+        "period": "jul 2025 - ago 2025",
+        "description": "Lideré arquitectura frontend con GatsbyJS y React, diseñando componentes reutilizables y hooks personalizados. Integré herramientas de IA para potenciar productividad.",
         "highlights": [
-          "Migración de aplicaciones legacy a React",
-          "Desarrollo de componentes accesibles",
-          "Integración con sistemas de autenticación"
+          "Arquitectura GatsbyJS escalable",
+          "Hooks personalizados React",
+          "Servicios API desacoplados"
+        ],
+        "achievements": [
+          "Pruebas unitarias con Jest",
+          "Integración IA Claude + Warp",
+          "CI/CD TypeScript estricto",
+          "Hooks personalizados async",
+          "Servicios API desacoplados",
+          "Estructura carpetas optimizada"
         ]
       },
       "itglobers": {
         "company": "IT Globers",
-        "role": "Frontend Developer",
-        "period": "2019 - 2020",
-        "description": "Desarrollo de soluciones e-commerce con VTEX IO y React.",
+        "role": "Front-End Architect",
+        "period": "jun 2024 - mar 2025",
+        "description": "Desarrollé interfaces de usuario para plataformas e-commerce VTEX IO, implementando componentes React personalizados para canales digitales de alto tráfico.",
         "highlights": [
-          "Desarrollo de tiendas online personalizadas",
-          "Componentes reutilizables para VTEX IO",
-          "Optimización de conversión y UX"
+          "Interfaces React + TypeScript",
+          "Estado global Redux Toolkit",
+          "Material UI + Tailwind"
+        ],
+        "achievements": [
+          "E-commerce VTEX IO producción",
+          "Firebase Authentication",
+          "Hooks personalizados negocio",
+          "Material UI + Bootstrap + Tailwind",
+          "GitHub workflows colaborativos",
+          "Gestión catálogos CMS VTEX"
         ]
       },
       "indra": {
         "company": "Indra",
-        "role": "Frontend Developer",
-        "period": "2017 - 2019",
-        "description": "Desarrollo de plataformas de e-commerce para clientes de telecomunicaciones.",
+        "role": "Front-End Architect",
+        "period": "abr 2021 - abr 2024",
+        "description": "Lideré refactorización del portal compras.tigo.com.co, implementando formularios dinámicos accesibles e integración con Google Calendar API.",
         "highlights": [
-          "Desarrollo de e-commerce para Tigo Colombia",
-          "Implementación de flujos de compra complejos",
-          "Integración con pasarelas de pago"
+          "Portal compras.tigo.com.co",
+          "Formularios dinámicos UX/UI",
+          "Redux + react-big-calendar"
+        ],
+        "achievements": [
+          "Google Calendar API completa",
+          "Sistema i18n multinivel",
+          "Capacitaciones y onboarding",
+          "Redux Toolkit + selectors",
+          "react-big-calendar custom",
+          "Moment.js zonas horarias"
+        ]
+      },
+      "cabildo": {
+        "company": "Cabildo Indígena",
+        "role": "Front-End Architect",
+        "period": "sep 2020 - ene 2021",
+        "description": "Diseñé y desarrollé aplicación web React para gestión de proyectos de organizaciones indígenas, con creación de empresas, roles, carga documental y reportes automatizados.",
+        "highlights": [
+          "App React gestión proyectos",
+          "Redux Toolkit + Auth0",
+          "Sistema diseño Figma"
+        ],
+        "achievements": [
+          "Reportes automatizados",
+          "Elicitación requerimientos",
+          "Coordinación sprints Trello",
+          "Auth0 flujos login/logout",
+          "Sistema diseño en Figma",
+          "Formularios con validación"
         ]
       },
       "parquesoft": {
         "company": "ParqueSoft Nariño",
-        "role": "Web Developer",
-        "period": "2014 - 2017",
-        "description": "Desarrollo de aplicaciones web para gobierno y sector público.",
+        "role": "Front-End Architect & Lead",
+        "period": "ene 2014 - ago 2020",
+        "description": "Implementé soluciones tecnológicas para gobierno: línea ciudadana #195, sistema PQRS y plataforma INFORMANDO de participación ciudadana con geolocalización.",
         "highlights": [
-          "Sistemas de participación ciudadana",
-          "Plataformas PQRD para entidades gubernamentales",
-          "Aplicaciones móviles híbridas"
+          "Línea #195 Alcaldía Pasto",
+          "Sistema PQRS gubernamental",
+          "Plataforma INFORMANDO"
+        ],
+        "achievements": [
+          "Central VOIP Asterisk + PHP",
+          "BPM con Processmaker",
+          "Infraestructura Digital Ocean",
+          "Sistema PQRS gubernamental",
+          "Plataforma Moodle educativa",
+          "WordPress/Joomla/Drupal"
         ]
+      }
+    }
+  },
+  "education": {
+    "title": "Formación Académica",
+    "items": {
+      "university": {
+        "degree": "Estudios universitarios",
+        "institution": "Universidad de Nariño",
+        "location": "Pasto, Colombia",
+        "date": "Diciembre 2010",
+        "description": "Formación académica sólida en fundamentos de ingeniería de software, estructuras de datos, bases de datos y desarrollo de sistemas. Esta base universitaria me proporcionó las competencias técnicas y metodológicas necesarias para abordar proyectos complejos de desarrollo web y liderar equipos multidisciplinarios en entornos tecnológicos exigentes."
+      },
+      "bpm": {
+        "degree": "Advanced Architect and Developer in BPM",
+        "institution": "Processmaker Certification",
+        "location": "Bogotá, Colombia",
+        "date": "Julio 2014",
+        "description": "Certificación especializada en arquitectura y desarrollo avanzado de procesos de negocio (BPM), que me ha permitido diseñar e implementar flujos automatizados bajo estándares BPMN 2.0. Esta formación ha sido fundamental para optimizar procesos organizacionales y crear integraciones eficientes entre sistemas empresariales y gubernamentales."
+      },
+      "platzi": {
+        "degree": "Platzi Master",
+        "institution": "Programa Intensivo de Desarrollo Web",
+        "location": "",
+        "date": "Marzo 2020",
+        "description": "Programa de formación intensiva enfocado en tecnologías web modernas y mejores prácticas de desarrollo. Esta experiencia complementó mi formación académica con conocimientos actualizados en frameworks frontend, metodologías ágiles y tendencias emergentes en desarrollo web, manteniéndome a la vanguardia tecnológica del sector."
       }
     }
   },
@@ -131,17 +235,17 @@
       "ditu": {
         "title": "DITU - Plataforma de Streaming",
         "description": "Plataforma de streaming para Caracol TV desarrollada en Media.Monks. Arquitectura moderna con React y optimización de rendimiento para millones de usuarios.",
-        "tags": ["React", "TypeScript", "Next.js", "Streaming"]
+        "tags": ["SolidJS", "Tizen", "NPAW"]
       },
       "bpmn": {
         "title": "Editor de Procesos BPMN",
         "description": "Editor visual de procesos empresariales para Hoitsu. Permite diseñar y automatizar flujos de trabajo con drag & drop intuitivo.",
-        "tags": ["React", "BPMN", "Drag & Drop", "Canvas"]
+        "tags": ["Next.js", "GraphQL", "GitHub"]
       },
       "tigo": {
         "title": "E-commerce Tigo",
         "description": "Plataforma de e-commerce para Tigo Colombia desarrollada en Indra. Flujos de compra optimizados y integración con múltiples pasarelas de pago.",
-        "tags": ["React", "E-commerce", "Payment Gateway"]
+        "tags": ["jQuery", "HTML", "CSS"]
       },
       "romancerelax": {
         "title": "Romance Relax E-commerce",
@@ -156,7 +260,7 @@
       "pqrd": {
         "title": "Sistema PQRD Gubernamental",
         "description": "Sistema de Peticiones, Quejas, Reclamos y Denuncias para entidades gubernamentales. Gestión completa del ciclo de atención al ciudadano.",
-        "tags": ["Angular", "Node.js", "PostgreSQL", "Gobierno"]
+        "tags": ["ProcessMaker", "Digital Ocean", "CentOS"]
       }
     }
   },
@@ -180,6 +284,11 @@
       }
     }
   },
+  "cta": {
+    "title": "¿Listo para crear algo increíble?",
+    "message": "¿Tienes un proyecto desafiante en mente? Me emociona conectar con personas y organizaciones que buscan transformar ideas innovadoras en soluciones digitales de alto impacto. Con más de 10 años especializándome en desarrollo Frontend y liderando proyectos tanto en el sector público como privado, estoy listo para ayudarte a materializar esa visión tecnológica que tienes.",
+    "button": "Hablemos"
+  },
   "contact": {
     "title": "Contacto",
     "subtitle": "¿Tienes un proyecto en mente? ¡Hablemos!",
@@ -190,7 +299,8 @@
       "send": "Enviar mensaje",
       "sending": "Enviando...",
       "success": "¡Mensaje enviado correctamente!",
-      "error": "Error al enviar el mensaje. Intenta de nuevo."
+      "error": "Error al enviar el mensaje. Intenta de nuevo.",
+      "invalidEmail": "Por favor ingresa un email válido"
     },
     "social": {
       "title": "También puedes encontrarme en"

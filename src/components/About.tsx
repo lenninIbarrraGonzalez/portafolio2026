@@ -18,7 +18,7 @@ export function About() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="about" className="py-20 lg:py-32" ref={ref}>
+    <section id="about" className="py-12 sm:py-16 lg:py-32" ref={ref}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={staggerContainerSlow}
@@ -45,14 +45,14 @@ export function About() {
           {/* Experience Badge */}
           <motion.div
             variants={fadeInUp}
-            className="flex items-center justify-center gap-2 mb-12"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-12"
           >
-            <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full">
-              <Briefcase className="w-4 h-4" />
+            <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full whitespace-nowrap">
+              <Briefcase className="w-4 h-4 flex-shrink-0" />
               <span className="font-medium">{t('experience', { years: 10 })}</span>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-full">
-              <MapPin className="w-4 h-4" />
+            <div className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-full whitespace-nowrap">
+              <MapPin className="w-4 h-4 flex-shrink-0" />
               <span className="font-medium">{t('location')}</span>
             </div>
           </motion.div>

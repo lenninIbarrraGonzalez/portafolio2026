@@ -1,197 +1,285 @@
 'use client';
 
-import { useRef, useMemo, Suspense } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Trail, Sparkles } from '@react-three/drei';
-import * as THREE from 'three';
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  HTMLIcon,
+  CSSIcon,
+  JSIcon,
+  ReactIcon,
+  TECH_COLORS,
+} from './shared/TechIcons';
 
-// Theme colors
-const COLORS = {
-  orange: '#ff6b35',
-  green: '#10b981',
-  blue: '#3b82f6',
-  purple: '#a855f7',
-  cyan: '#06b6d4',
-};
+// Particle component for explosion effect
+const Particle = ({ delay, x, y, color }: { delay: number; x: number; y: number; color: string }) => (
+  <motion.div
+    className="absolute w-3 h-3 rounded-full"
+    style={{ backgroundColor: color }}
+    initial={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+    animate={{
+      opacity: 0,
+      scale: 0,
+      x: x * 150,
+      y: y * 150,
+    }}
+    transition={{ duration: 1, delay, ease: 'easeOut' }}
+  />
+);
 
-interface OrbitingSpheresProps {
-  radius: number;
-  speed: number;
-  color: string;
-  size: number;
-  orbitPlane: 'XY' | 'XZ' | 'YZ' | 'diagonal';
-  phaseOffset: number;
-  orbitTilt: number;
-}
-
-function OrbitingSphere({
-  radius,
-  speed,
-  color,
-  size,
-  orbitPlane,
-  phaseOffset,
-  orbitTilt,
-}: OrbitingSpheresProps) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const groupRef = useRef<THREE.Group>(null);
-  const { pointer } = useThree();
-
-  useFrame((state) => {
-    if (!meshRef.current || !groupRef.current) return;
-
-    const time = state.clock.elapsedTime * speed + phaseOffset;
-
-    // Calculate position based on orbit plane
-    let x = 0, y = 0, z = 0;
-
-    switch (orbitPlane) {
-      case 'XY':
-        x = Math.cos(time) * radius;
-        y = Math.sin(time) * radius;
-        z = Math.sin(time * 0.5) * 0.3;
-        break;
-      case 'XZ':
-        x = Math.cos(time) * radius;
-        y = Math.sin(time * 0.5) * 0.3;
-        z = Math.sin(time) * radius;
-        break;
-      case 'YZ':
-        x = Math.sin(time * 0.5) * 0.3;
-        y = Math.cos(time) * radius;
-        z = Math.sin(time) * radius;
-        break;
-      case 'diagonal':
-        x = Math.cos(time) * radius * 0.7;
-        y = Math.sin(time) * radius * 0.7;
-        z = Math.cos(time * 1.5) * radius * 0.5;
-        break;
-    }
-
-    meshRef.current.position.set(x, y, z);
-
-    // Mouse influence on orbit tilt
-    const targetRotationX = pointer.y * 0.3 + orbitTilt;
-    const targetRotationY = pointer.x * 0.3;
-
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(
-      groupRef.current.rotation.x,
-      targetRotationX,
-      0.02
-    );
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(
-      groupRef.current.rotation.y,
-      targetRotationY,
-      0.02
-    );
-  });
-
-  return (
-    <group ref={groupRef}>
-      <Trail
-        width={size * 3}
-        length={8}
-        color={color}
-        attenuation={(t) => t * t}
-      >
-        <mesh ref={meshRef}>
-          <sphereGeometry args={[size, 16, 16]} />
-          <meshBasicMaterial
-            color={color}
-            toneMapped={false}
-          />
-        </mesh>
-      </Trail>
-    </group>
-  );
-}
-
-// Configuration for all orbiting spheres
-const sphereConfigs: OrbitingSpheresProps[] = [
-  // Main orbits
-  { radius: 2.5, speed: 0.6, color: COLORS.orange, size: 0.08, orbitPlane: 'XY', phaseOffset: 0, orbitTilt: 0.2 },
-  { radius: 2.2, speed: 0.8, color: COLORS.blue, size: 0.06, orbitPlane: 'XZ', phaseOffset: Math.PI / 3, orbitTilt: -0.1 },
-  { radius: 2.8, speed: 0.5, color: COLORS.green, size: 0.07, orbitPlane: 'YZ', phaseOffset: Math.PI / 2, orbitTilt: 0.3 },
-
-  // Secondary orbits
-  { radius: 1.8, speed: 1.0, color: COLORS.purple, size: 0.05, orbitPlane: 'diagonal', phaseOffset: Math.PI, orbitTilt: -0.2 },
-  { radius: 2.0, speed: 0.7, color: COLORS.cyan, size: 0.06, orbitPlane: 'XY', phaseOffset: Math.PI * 1.5, orbitTilt: 0.1 },
-  { radius: 2.4, speed: 0.9, color: COLORS.orange, size: 0.05, orbitPlane: 'XZ', phaseOffset: Math.PI / 4, orbitTilt: 0.25 },
-
-  // Inner orbits (faster, smaller)
-  { radius: 1.2, speed: 1.3, color: COLORS.blue, size: 0.04, orbitPlane: 'YZ', phaseOffset: Math.PI * 0.75, orbitTilt: -0.15 },
-  { radius: 1.5, speed: 1.1, color: COLORS.green, size: 0.04, orbitPlane: 'diagonal', phaseOffset: Math.PI * 1.25, orbitTilt: 0.35 },
-
-  // Outer orbits (slower, larger trails)
-  { radius: 3.2, speed: 0.4, color: COLORS.purple, size: 0.09, orbitPlane: 'XY', phaseOffset: Math.PI * 0.5, orbitTilt: -0.3 },
-  { radius: 3.0, speed: 0.45, color: COLORS.cyan, size: 0.08, orbitPlane: 'XZ', phaseOffset: Math.PI * 1.75, orbitTilt: 0.15 },
-];
-
-function CentralGlow() {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    if (!meshRef.current) return;
-    // Subtle pulsing effect
-    const scale = 1 + Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
-    meshRef.current.scale.setScalar(scale);
-  });
-
-  return (
-    <mesh ref={meshRef}>
-      <sphereGeometry args={[0.3, 32, 32]} />
-      <meshBasicMaterial
-        color={COLORS.orange}
-        transparent
-        opacity={0.15}
-        toneMapped={false}
-      />
-    </mesh>
-  );
-}
-
-function BackgroundParticles() {
-  return (
-    <Sparkles
-      count={100}
-      scale={15}
-      size={1}
-      speed={0.1}
-      opacity={0.3}
-      color="#ffffff"
-    />
-  );
-}
-
-function Scene() {
-  return (
-    <>
-      <ambientLight intensity={0.2} />
-      <pointLight position={[0, 0, 0]} intensity={0.5} color={COLORS.orange} />
-
-      <CentralGlow />
-
-      {sphereConfigs.map((config, index) => (
-        <OrbitingSphere key={index} {...config} />
-      ))}
-
-      <BackgroundParticles />
-    </>
-  );
-}
+type Phase = 'entering' | 'colliding' | 'react' | 'exploding';
 
 export function HeroScene() {
+  const [phase, setPhase] = useState<Phase>('entering');
+  const [cycleKey, setCycleKey] = useState(0);
+
+  const particles = useMemo(() => {
+    return Array.from({ length: 24 }, (_, i) => ({
+      id: i,
+      x: Math.cos((i / 24) * Math.PI * 2),
+      y: Math.sin((i / 24) * Math.PI * 2),
+      color: TECH_COLORS[i % TECH_COLORS.length],
+      delay: i * 0.02,
+    }));
+  }, []);
+
+  const runAnimationCycle = useCallback(() => {
+    setPhase('entering');
+
+    const timers = [
+      setTimeout(() => setPhase('colliding'), 2000),
+      setTimeout(() => setPhase('react'), 3500),
+      setTimeout(() => setPhase('exploding'), 6000),
+      setTimeout(() => {
+        setCycleKey(k => k + 1);
+      }, 7500),
+    ];
+
+    return timers;
+  }, []);
+
+  useEffect(() => {
+    const timers = runAnimationCycle();
+    return () => timers.forEach(clearTimeout);
+  }, [cycleKey, runAnimationCycle]);
+
+  // Generate random start positions each cycle (scaled for mobile)
+  const startPositions = useMemo(() => {
+    const positions = [
+      { x: -150, y: -100 },
+      { x: 150, y: -100 },
+      { x: -150, y: 100 },
+      { x: 150, y: 100 },
+      { x: 0, y: -150 },
+      { x: 0, y: 150 },
+      { x: -180, y: 0 },
+      { x: 180, y: 0 },
+    ];
+    const shuffled = [...positions].sort(() => Math.random() - 0.5);
+    return {
+      html: { ...shuffled[0], rotate: Math.random() * 360 - 180, opacity: 0 },
+      css: { ...shuffled[1], rotate: Math.random() * 360 - 180, opacity: 0 },
+      js: { ...shuffled[2], rotate: Math.random() * 360 - 180, opacity: 0 },
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cycleKey]);
+
+  // Floating positions (visible, floating) with rotation reset and full opacity - scaled for mobile
+  const floatingPositions = {
+    html: { x: -60, y: -40, rotate: 0, opacity: 1 },
+    css: { x: 60, y: -40, rotate: 0, opacity: 1 },
+    js: { x: 0, y: 50, rotate: 0, opacity: 1 },
+  };
+
   return (
-    <div className="absolute inset-0 -z-10">
-      <Canvas
-        camera={{ position: [0, 0, 6], fov: 60 }}
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true }}
-      >
-        <Suspense fallback={null}>
-          <Scene />
-        </Suspense>
-      </Canvas>
+    <div className="absolute inset-0 -z-10 overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-secondary/20" />
+
+      {/* Floating particles background */}
+      <div className="absolute inset-0">
+        {Array.from({ length: 50 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-primary/20 rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [0, -20, 0],
+              opacity: [0.2, 0.5, 0.2],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Main animation container */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96">
+          {/* HTML Logo */}
+          <AnimatePresence mode="wait">
+            {(phase === 'entering' || phase === 'colliding') && (
+              <motion.div
+                key={`html-${cycleKey}`}
+                className="absolute w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20"
+                style={{ left: '50%', top: '50%', marginLeft: '-1.75rem', marginTop: '-1.75rem' }}
+                initial={startPositions.html}
+                animate={
+                  phase === 'entering'
+                    ? floatingPositions.html
+                    : { x: 0, y: 0, scale: 0.6, rotate: 360, opacity: 1 }
+                }
+                exit={{ scale: 0, opacity: 0 }}
+                transition={{
+                  duration: phase === 'entering' ? 2 : 1.5,
+                  ease: 'easeOut',
+                }}
+              >
+                <motion.div
+                  animate={phase === 'entering' ? { y: [0, -8, 0] } : {}}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <HTMLIcon />
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* CSS Logo */}
+          <AnimatePresence mode="wait">
+            {(phase === 'entering' || phase === 'colliding') && (
+              <motion.div
+                key={`css-${cycleKey}`}
+                className="absolute w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20"
+                style={{ left: '50%', top: '50%', marginLeft: '-1.75rem', marginTop: '-1.75rem' }}
+                initial={startPositions.css}
+                animate={
+                  phase === 'entering'
+                    ? floatingPositions.css
+                    : { x: 0, y: 0, scale: 0.6, rotate: -360, opacity: 1 }
+                }
+                exit={{ scale: 0, opacity: 0 }}
+                transition={{
+                  duration: phase === 'entering' ? 2 : 1.5,
+                  ease: 'easeOut',
+                  delay: phase === 'entering' ? 0.2 : 0,
+                }}
+              >
+                <motion.div
+                  animate={phase === 'entering' ? { y: [0, -12, 0] } : {}}
+                  transition={{ duration: 1.8, repeat: Infinity, delay: 0.3 }}
+                >
+                  <CSSIcon />
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* JavaScript Logo */}
+          <AnimatePresence mode="wait">
+            {(phase === 'entering' || phase === 'colliding') && (
+              <motion.div
+                key={`js-${cycleKey}`}
+                className="absolute w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20"
+                style={{ left: '50%', top: '50%', marginLeft: '-1.75rem', marginTop: '-1.75rem' }}
+                initial={startPositions.js}
+                animate={
+                  phase === 'entering'
+                    ? floatingPositions.js
+                    : { x: 0, y: 0, scale: 0.6, rotate: 180, opacity: 1 }
+                }
+                exit={{ scale: 0, opacity: 0 }}
+                transition={{
+                  duration: phase === 'entering' ? 2 : 1.5,
+                  ease: 'easeOut',
+                  delay: phase === 'entering' ? 0.4 : 0,
+                }}
+              >
+                <motion.div
+                  animate={phase === 'entering' ? { y: [0, -10, 0] } : {}}
+                  transition={{ duration: 2, repeat: Infinity, delay: 0.6 }}
+                >
+                  <JSIcon />
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Collision flash */}
+          <AnimatePresence>
+            {phase === 'react' && (
+              <motion.div
+                key={`flash-${cycleKey}`}
+                className="absolute w-40 h-40 bg-white rounded-full"
+                style={{ left: '50%', top: '50%', marginLeft: -80, marginTop: -80 }}
+                initial={{ scale: 0, opacity: 0.8 }}
+                animate={{ scale: 2, opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              />
+            )}
+          </AnimatePresence>
+
+          {/* React Logo */}
+          <AnimatePresence>
+            {(phase === 'react' || phase === 'exploding') && (
+              <motion.div
+                key={`react-${cycleKey}`}
+                className="absolute w-28 h-28"
+                style={{ left: '50%', top: '50%', marginLeft: -56, marginTop: -56 }}
+                initial={{ scale: 0, rotate: -180, opacity: 0 }}
+                animate={
+                  phase === 'react'
+                    ? { scale: 1, rotate: 0, opacity: 1 }
+                    : { scale: 3, opacity: 0 }
+                }
+                transition={
+                  phase === 'react'
+                    ? { type: 'spring', stiffness: 200, damping: 15 }
+                    : { duration: 0.5 }
+                }
+              >
+                <motion.div
+                  animate={phase === 'react' ? { rotate: 360 } : {}}
+                  transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                >
+                  <ReactIcon />
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Glow effect behind React */}
+          <AnimatePresence>
+            {phase === 'react' && (
+              <motion.div
+                key={`glow-${cycleKey}`}
+                className="absolute w-40 h-40 bg-[#61DAFB]/30 rounded-full blur-2xl -z-10"
+                style={{ left: '50%', top: '50%', marginLeft: -80, marginTop: -80 }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.6, 0.4] }}
+                exit={{ scale: 2, opacity: 0 }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            )}
+          </AnimatePresence>
+
+          {/* Explosion particles */}
+          <AnimatePresence>
+            {phase === 'exploding' && (
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                {particles.map((p) => (
+                  <Particle key={`particle-${cycleKey}-${p.id}`} {...p} />
+                ))}
+              </div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
     </div>
   );
 }

@@ -3,14 +3,12 @@
 import { motion, useInView } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { useRef, useState } from 'react';
-import { Send, Github, Linkedin, Mail, CheckCircle, AlertCircle } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
+import { CONTACT_SOCIAL_LINKS } from '@/config/social';
 
-const socialLinks = [
-  { icon: Github, href: 'https://github.com/satanas', label: 'GitHub' },
-  { icon: Linkedin, href: 'https://linkedin.com/in/lenninibarra', label: 'LinkedIn' },
-  { icon: Mail, href: 'mailto:lennin.ibarra@gmail.com', label: 'Email' },
-];
+// Email validation regex
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export function Contact() {
   const t = useTranslations('contact');
@@ -23,9 +21,23 @@ export function Contact() {
     message: '',
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [emailError, setEmailError] = useState<string | null>(null);
+
+  const validateEmail = (email: string): boolean => {
+    if (!email) return false;
+    return EMAIL_REGEX.test(email);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate email before submission
+    if (!validateEmail(formData.email)) {
+      setEmailError(t('form.invalidEmail'));
+      return;
+    }
+
+    setEmailError(null);
     setStatus('sending');
 
     // Simulate form submission (replace with actual implementation)
@@ -40,10 +52,16 @@ export function Contact() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
+
+    // Clear email error when user starts typing
+    if (name === 'email' && emailError) {
+      setEmailError(null);
+    }
   };
 
   return (
@@ -110,9 +128,18 @@ export function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                  aria-invalid={emailError ? 'true' : 'false'}
+                  aria-describedby={emailError ? 'email-error' : undefined}
+                  className={`w-full px-4 py-3 bg-background border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${
+                    emailError ? 'border-red-500' : 'border-border'
+                  }`}
                   placeholder="john@example.com"
                 />
+                {emailError && (
+                  <p id="email-error" className="mt-1 text-sm text-red-500" role="alert">
+                    {emailError}
+                  </p>
+                )}
               </div>
 
               {/* Message Field */}
@@ -176,7 +203,7 @@ export function Contact() {
           <motion.div variants={fadeInUp} className="text-center">
             <p className="text-muted-foreground mb-4">{t('social.title')}</p>
             <div className="flex justify-center gap-4">
-              {socialLinks.map((social) => (
+              {CONTACT_SOCIAL_LINKS.map((social) => (
                 <motion.a
                   key={social.label}
                   href={social.href}

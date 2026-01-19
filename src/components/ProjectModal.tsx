@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { X, ExternalLink, Github } from 'lucide-react';
@@ -23,11 +23,69 @@ interface ProjectModalProps {
 }
 
 export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
+  const modalRef = useRef<HTMLDivElement>(null);
+  const previousActiveElement = useRef<HTMLElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Focus trap implementation
+  const getFocusableElements = useCallback(() => {
+    if (!modalRef.current) return [];
+    return Array.from(
+      modalRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((el) => !el.hasAttribute('disabled') && el.offsetParent !== null);
+  }, []);
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+
+      if (e.key !== 'Tab') return;
+
+      const focusableElements = getFocusableElements();
+      if (focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey) {
+        // Shift + Tab
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        // Tab
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    },
+    [getFocusableElements, onClose]
+  );
+
   useEffect(() => {
     if (isOpen) {
+      // Store current active element
+      previousActiveElement.current = document.activeElement as HTMLElement;
       document.body.style.overflow = 'hidden';
+
+      // Focus the close button when modal opens
+      setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 100);
     } else {
       document.body.style.overflow = 'unset';
+
+      // Restore focus to previous element
+      if (previousActiveElement.current) {
+        previousActiveElement.current.focus();
+      }
     }
 
     return () => {
@@ -36,15 +94,11 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   }, [isOpen]);
 
   useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
+    if (!isOpen) return;
 
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, [onClose]);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, handleKeyDown]);
 
   return (
     <AnimatePresence>
@@ -57,24 +111,30 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
             exit={{ opacity: 0 }}
             onClick={onClose}
             className="fixed inset-0 bg-black/60 modal-backdrop z-50"
+            aria-hidden="true"
           />
 
           {/* Modal */}
           <motion.div
+            ref={modalRef}
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-2xl md:w-full md:max-h-[85vh] bg-card rounded-2xl overflow-hidden z-50 flex flex-col"
+            className="fixed left-4 right-4 top-1/2 -translate-y-1/2 sm:left-6 sm:right-6 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-2xl md:w-full max-h-[85vh] bg-card rounded-2xl overflow-hidden z-50 flex flex-col"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
           >
             {/* Close Button */}
-            <MagneticButton
+            <button
+              ref={closeButtonRef}
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 bg-background/80 rounded-full hover:bg-background transition-colors z-10"
-              strength={0.2}
+              className="absolute top-4 right-4 p-2 bg-background/80 rounded-full hover:bg-background transition-colors z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              aria-label="Close modal"
             >
               <X className="w-5 h-5" />
-            </MagneticButton>
+            </button>
 
             {/* Image */}
             <div className="relative aspect-video w-full overflow-hidden">
@@ -89,7 +149,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
 
             {/* Content */}
             <div className="p-6 overflow-y-auto flex-1">
-              <h3 className="text-2xl font-bold text-foreground mb-2">
+              <h3 id="modal-title" className="text-2xl font-bold text-foreground mb-2">
                 {project.title}
               </h3>
 
