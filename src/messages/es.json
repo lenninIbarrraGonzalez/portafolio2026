@@ -264,6 +264,19 @@
       }
     }
   },
+  "clientDemos": {
+    "title": "Showcase de Clientes",
+    "viewDemo": "Ver demo",
+    "items": {
+      "monks": { "title": "Monks VOD" },
+      "neostella": { "title": "Neostella" },
+      "parkinkcentro": { "title": "Parkink Centro" },
+      "bpmn": { "title": "ProcessFlow BPMN" },
+      "parkink": { "title": "Parkink V2" },
+      "gestiondocumental": { "title": "Gestión Documental" },
+      "processflow": { "title": "ProcessFlow" }
+    }
+  },
   "testimonials": {
     "title": "Testimonios",
     "items": {

@@ -7,6 +7,7 @@ import { Experience } from '@/components/Experience';
 import { Education } from '@/components/Education';
 import { Skills } from '@/components/Skills';
 import { ProjectsCarousel } from '@/components/ProjectsCarousel';
+import { ClientDemos } from '@/components/ClientDemos';
 import { Testimonials } from '@/components/Testimonials';
 import { CallToAction } from '@/components/CallToAction';
 import { Footer } from '@/components/Footer';
@@ -21,6 +22,7 @@ export default function Home() {
         <About />
         <Experience />
         <ProjectsCarousel />
+        <ClientDemos />
         <Education />
         <Skills />
         <Testimonials />
