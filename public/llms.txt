@@ -1,0 +1,171 @@
+# Lennin Ibarra
+
+> Senior Frontend Engineer based in Bogotá, Colombia, currently working at Monks (Media.Monks), with over 10 years of experience building modern and scalable web applications.
+
+## About
+
+Lennin Ibarra is a passionate frontend developer with over a decade of experience building modern and scalable web applications. He specializes in React, TypeScript, and frontend architectures that prioritize user experience and performance.
+
+- Location: Bogotá, Colombia
+- Experience: 10+ years
+- Projects: 50+
+- Companies: 6+
+- Technologies: 20+
+
+## Core Skills
+
+**Frontend:** React, Next.js, TypeScript, Vue.js, Tailwind CSS, Framer Motion
+
+**Backend:** Node.js, Python, REST APIs, GraphQL, PostgreSQL, MongoDB
+
+**Tools:** Git, Docker, AWS, Vercel, Figma, Jest
+
+**Soft Skills:** Technical leadership, Mentoring, Communication, Teamwork, Problem solving, Professional English
+
+## Professional Experience
+
+### Front-End Architect — Monks
+**Period:** Nov 2025 - Present
+
+Led the refactoring of DITU video player for Caracol TV, transforming a monolithic component into a scalable modular architecture.
+
+Key highlights:
+- Modular architecture with 13+ modules
+- Complete unit testing suite
+- Analytics integration with NPAW + Google IMA
+- Reduced production regressions
+- Technical documentation and onboarding
+- Profile management optimization
+- Legacy code cleanup
+- Firebase Analytics integration
+- Yarn Workspaces monorepo setup
+
+### Front-End Architect — Hoitsu
+**Period:** Jul 2025 - Nov 2025
+
+Developed web application for designing BPMN 2.0 diagrams with Next.js 16 and React 19, integrating interactive visual editor and real-time GraphQL communication.
+
+Key highlights:
+- BPMN 2.0 editor with bpmn-js
+- GraphQL + real-time sync
+- UI with shadcn/ui + Tailwind
+- ES/EN multilanguage system
+- Secure OAuth authentication
+- Global state with Zustand
+- Automatic TypeScript types
+
+### Front-End Architect — Comfama
+**Period:** Jul 2025 - Aug 2025
+
+Led frontend architecture with GatsbyJS and React, designing reusable components and custom hooks. Integrated AI tools to boost productivity.
+
+Key highlights:
+- Scalable GatsbyJS architecture
+- Custom React hooks
+- Decoupled API services
+- Unit testing with Jest
+- AI integration (Claude + Warp)
+- CI/CD with strict TypeScript
+
+### Front-End Architect — IT Globers
+**Period:** Jun 2024 - Mar 2025
+
+Developed user interfaces for VTEX IO e-commerce platforms, implementing custom React components for high-traffic digital channels.
+
+Key highlights:
+- React + TypeScript interfaces
+- Global state with Redux Toolkit
+- Material UI + Tailwind CSS
+- Production VTEX IO e-commerce
+- Firebase Authentication
+- VTEX CMS catalog management
+
+### Front-End Architect — Indra
+**Period:** Apr 2021 - Apr 2024
+
+Led refactoring of compras.tigo.com.co portal, implementing accessible dynamic forms and Google Calendar API integration.
+
+Key highlights:
+- Portal compras.tigo.com.co
+- Dynamic UX/UI forms
+- Redux + react-big-calendar
+- Full Google Calendar API integration
+- Multilevel i18n system
+- Redux Toolkit + selectors
+
+### Front-End Architect — Indigenous Council
+**Period:** Sep 2020 - Jan 2021
+
+Designed and developed React web application for project management of indigenous organizations, with company creation, roles, document upload and automated reports.
+
+Key highlights:
+- React project management app
+- Redux Toolkit + Auth0
+- Figma design system
+- Automated reports
+- Auth0 login/logout flows
+- Forms with validation
+
+### Front-End Architect & Lead — ParqueSoft Nariño
+**Period:** Jan 2014 - Aug 2020
+
+Implemented technology solutions for government: citizen hotline #195, PQRS system and INFORMANDO citizen participation platform with geolocation.
+
+Key highlights:
+- Hotline #195 Pasto City Hall
+- PQRS government system
+- INFORMANDO platform
+- VOIP Asterisk + PHP system
+- BPM with Processmaker
+- Digital Ocean infrastructure
+
+## Featured Projects
+
+### DITU - Streaming Platform
+Streaming platform for Caracol TV developed at Media.Monks. Modern architecture with React and performance optimization for millions of users.
+Technologies: SolidJS, Tizen, NPAW
+
+### BPMN Process Editor
+Visual business process editor for Hoitsu. Allows designing and automating workflows with intuitive drag & drop.
+Technologies: Next.js, GraphQL, GitHub
+
+### Tigo E-commerce
+E-commerce platform for Tigo Colombia developed at Indra. Optimized purchase flows and integration with multiple payment gateways.
+Technologies: jQuery, HTML, CSS
+
+### Romance Relax E-commerce
+Online store developed with VTEX IO for IT Globers. Personalized shopping experience and high performance.
+Technologies: VTEX IO, React, E-commerce
+
+### Informando - Citizen Participation
+Citizen participation application developed for ParqueSoft Nariño. Allows citizens to report and track local issues.
+Technologies: Ushahidi, Google Maps, Mobile, Government
+
+### Government PQRD System
+Petitions, Complaints, Claims and Reports system for government entities. Complete management of the citizen service cycle.
+Technologies: ProcessMaker, Digital Ocean, CentOS
+
+## Education
+
+### University Studies — Universidad de Nariño
+**Location:** Pasto, Colombia | **Date:** December 2010
+
+Solid academic foundation in software engineering fundamentals, data structures, databases, and systems development.
+
+### Advanced Architect and Developer in BPM — Processmaker Certification
+**Location:** Bogotá, Colombia | **Date:** July 2014
+
+Specialized certification in advanced business process management (BPM) architecture and development under BPMN 2.0 standards.
+
+### Platzi Master — Intensive Web Development Program
+**Date:** March 2020
+
+Intensive training program focused on modern web technologies and development best practices.
+
+## Contact
+
+- **Email:** ing.lenninibarra@gmail.com
+- **LinkedIn:** https://www.linkedin.com/in/lennin-geovanny-ibarra/
+- **GitHub:** https://github.com/lenninIbarrraGonzalez
+- **Portfolio:** https://lenninibarra.com
+- **CV (PDF):** https://lenninibarra.com/docs/Front-End-Architect-React2026-v1.pdf

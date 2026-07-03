@@ -1,9 +1,16 @@
-import type { Metadata } from 'next';
 import { JetBrains_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
-import { routing } from '@/i18n/routing';
 import { ClientWrapper } from '@/components/ClientWrapper';
+import { JsonLd } from '@/components/JsonLd';
+import { routing } from '@/i18n/routing';
+import {
+  buildPersonSchema,
+  buildWebSiteSchema,
+  buildProfilePageSchema,
+  buildProjectsItemListSchema,
+} from '@/lib/structured-data';
+import type { Metadata } from 'next';
 import '../globals.css';
 
 const jetbrainsMono = JetBrains_Mono({
@@ -25,7 +32,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const messages = await getMessages({ locale });
-  const metadata = messages.metadata as { title: string; description: string };
+  const metadata = messages.metadata as { title: string; description: string; keywords: string[] };
 
   const canonicalUrl = locale === routing.defaultLocale ? BASE_URL : `${BASE_URL}/${locale}`;
   const ogLocale = locale === 'es' ? 'es_CO' : 'en_US';
@@ -38,25 +45,10 @@ export async function generateMetadata({
       template: `%s | Lennin Ibarra`,
     },
     description: metadata.description,
-    keywords: [
-      'Frontend Developer',
-      'React',
-      'TypeScript',
-      'Next.js',
-      'Portfolio',
-      'Senior Frontend Engineer',
-      'Web Developer',
-      'JavaScript',
-      'Lennin Ibarra',
-      'Colombia',
-    ],
+    keywords: metadata.keywords,
     authors: [{ name: 'Lennin Ibarra', url: BASE_URL }],
     creator: 'Lennin Ibarra',
     publisher: 'Lennin Ibarra',
-    icons: {
-      icon: '/favicon.svg',
-      apple: '/favicon.svg',
-    },
     alternates: {
       canonical: canonicalUrl,
       languages: {
@@ -72,20 +64,11 @@ export async function generateMetadata({
       siteName: 'Lennin Ibarra Portfolio',
       locale: ogLocale,
       alternateLocale: alternateLocale,
-      images: [
-        {
-          url: '/images/og-image.png',
-          width: 1200,
-          height: 630,
-          alt: 'Lennin Ibarra - Senior Frontend Engineer',
-        },
-      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: metadata.title,
       description: metadata.description,
-      images: ['/images/og-image.png'],
       creator: '@lenninibarra',
     },
     robots: {
@@ -115,49 +98,7 @@ export default async function LocaleLayout({
   const { locale } = await params;
   setRequestLocale(locale);
   const messages = await getMessages();
-  const metadata = messages.metadata as { title: string; description: string };
-
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: 'Lennin Ibarra',
-    jobTitle: 'Senior Frontend Engineer',
-    url: BASE_URL,
-    sameAs: [
-      'https://github.com/lenninIbarrraGonzalez',
-      'https://www.linkedin.com/in/lennin-geovanny-ibarra/',
-    ],
-    knowsAbout: [
-      'React',
-      'TypeScript',
-      'Next.js',
-      'JavaScript',
-      'Frontend Development',
-      'Web Development',
-    ],
-    worksFor: {
-      '@type': 'Organization',
-      name: 'Monks',
-    },
-    address: {
-      '@type': 'PostalAddress',
-      addressCountry: 'CO',
-      addressLocality: 'Bogotá',
-    },
-  };
-
-  const websiteJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: metadata.title,
-    description: metadata.description,
-    url: BASE_URL,
-    inLanguage: locale === 'es' ? 'es-CO' : 'en-US',
-    author: {
-      '@type': 'Person',
-      name: 'Lennin Ibarra',
-    },
-  };
+  const metadata = messages.metadata as { title: string; description: string; keywords: string[] };
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -166,9 +107,9 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                var theme = localStorage.getItem('theme');
+                let theme = localStorage.getItem('theme');
                 if (!theme) {
-                  var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+                  const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
                   theme = prefersLight ? 'light' : 'dark';
                 }
                 if (theme === 'dark') {
@@ -178,14 +119,10 @@ export default async function LocaleLayout({
             `,
           }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-        />
+        <JsonLd schema={buildPersonSchema()} />
+        <JsonLd schema={buildWebSiteSchema(locale, metadata.title, metadata.description)} />
+        <JsonLd schema={buildProfilePageSchema(locale, metadata.title, metadata.description)} />
+        <JsonLd schema={buildProjectsItemListSchema()} />
       </head>
       <body
         className={`${jetbrainsMono.className} antialiased`}
