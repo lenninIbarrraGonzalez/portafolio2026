@@ -162,6 +162,14 @@ Specialized certification in advanced business process management (BPM) architec
 
 Intensive training program focused on modern web technologies and development best practices.
 
+## Why Lennin Ibarra
+
+- 10+ years of continuous delivery across government, telecom, media, and e-commerce
+- Built and shipped DITU, a streaming platform serving Caracol TV users in production
+- Led architecture on projects ranging from citizen-services platforms to video players
+- Shipped production code in React, SolidJS, Vue, VTEX IO — not framework-dependent
+- Available for senior/architect roles or technical consulting, remote or Latin America
+
 ## Contact
 
 - **Email:** ing.lenninibarra@gmail.com

@@ -4,6 +4,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import { ClientWrapper } from '@/components/ClientWrapper';
 import { JsonLd } from '@/components/JsonLd';
 import { routing } from '@/i18n/routing';
+import { BASE_URL } from '@/lib/config';
 import {
   buildPersonSchema,
   buildWebSiteSchema,
@@ -18,8 +19,6 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   display: 'swap',
 });
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://lenninibarra.com';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -100,6 +99,32 @@ export default async function LocaleLayout({
   const messages = await getMessages();
   const metadata = messages.metadata as { title: string; description: string; keywords: string[] };
 
+  // Extract skills: flatten all category skill lists
+  const messagesAny = messages as Record<string, unknown>;
+  const skillsData = messagesAny.skills as {
+    categories: Record<string, { skills: string[] }>;
+  };
+  const skills = Object.values(skillsData.categories).flatMap((c) => c.skills);
+
+  // Extract alumni from education items
+  type EducationItem = { institution: string; location?: string; date: string };
+  const eduData = messagesAny.education as { items: Record<string, EducationItem> };
+  const alumni = Object.values(eduData.items).map((e) => ({
+    name: e.institution,
+    location: e.location || undefined,
+    endDate: e.date,
+  }));
+
+  // Extract projects
+  type ProjectItem = { title: string; description: string; tags: string[]; url?: string };
+  const projData = messagesAny.projects as { items: Record<string, ProjectItem> };
+  const projects = Object.values(projData.items).map((p) => ({
+    title: p.title,
+    description: p.description,
+    technologies: p.tags ?? [],
+    url: p.url,
+  }));
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
@@ -119,10 +144,10 @@ export default async function LocaleLayout({
             `,
           }}
         />
-        <JsonLd schema={buildPersonSchema()} />
+        <JsonLd schema={buildPersonSchema(skills, alumni)} />
         <JsonLd schema={buildWebSiteSchema(locale, metadata.title, metadata.description)} />
         <JsonLd schema={buildProfilePageSchema(locale, metadata.title, metadata.description)} />
-        <JsonLd schema={buildProjectsItemListSchema()} />
+        <JsonLd schema={buildProjectsItemListSchema(projects)} />
       </head>
       <body
         className={`${jetbrainsMono.className} antialiased`}

@@ -1,106 +1,33 @@
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://lenninibarra.com';
+import { BASE_URL } from '@/lib/config';
 
-// Skills sourced from en.json skills.categories
-const ALL_SKILLS = [
-  // Frontend
-  'React',
-  'Next.js',
-  'TypeScript',
-  'Vue.js',
-  'Tailwind CSS',
-  'Framer Motion',
-  // Backend
-  'Node.js',
-  'Python',
-  'REST APIs',
-  'GraphQL',
-  'PostgreSQL',
-  'MongoDB',
-  // Tools
-  'Git',
-  'Docker',
-  'AWS',
-  'Vercel',
-  'Figma',
-  'Jest',
-  // Soft skills
-  'Technical leadership',
-  'Mentoring',
-  'Communication',
-  'Teamwork',
-  'Problem solving',
-];
+export interface AlumniInput {
+  name: string;
+  location?: string;
+  endDate?: string;
+}
 
-// Education sourced from en.json education.items
-const ALUMNI_OF = [
-  {
-    '@type': 'EducationalOrganization',
-    name: 'Universidad de Nariño',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Pasto',
-      addressCountry: 'CO',
-    },
-  },
-  {
-    '@type': 'EducationalOrganization',
-    name: 'Processmaker Certification',
-    description: 'Advanced Architect and Developer in BPM',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Bogotá',
-      addressCountry: 'CO',
-    },
-  },
-];
+export interface ProjectInput {
+  title: string;
+  description: string;
+  technologies: string[];
+  url?: string;
+}
 
-// Projects sourced from en.json projects.items
-const PROJECTS = [
-  {
-    key: 'ditu',
-    name: 'DITU - Streaming Platform',
-    description:
-      'Streaming platform for Caracol TV developed at Media.Monks. Modern architecture with React and performance optimization for millions of users.',
-    tags: ['SolidJS', 'Tizen', 'NPAW'],
-  },
-  {
-    key: 'bpmn',
-    name: 'BPMN Process Editor',
-    description:
-      'Visual business process editor for Hoitsu. Allows designing and automating workflows with intuitive drag & drop.',
-    tags: ['Next.js', 'GraphQL', 'GitHub'],
-  },
-  {
-    key: 'tigo',
-    name: 'Tigo E-commerce',
-    description:
-      'E-commerce platform for Tigo Colombia developed at Indra. Optimized purchase flows and integration with multiple payment gateways.',
-    tags: ['jQuery', 'HTML', 'CSS'],
-  },
-  {
-    key: 'romancerelax',
-    name: 'Romance Relax E-commerce',
-    description:
-      'Online store developed with VTEX IO for IT Globers. Personalized shopping experience and high performance.',
-    tags: ['VTEX IO', 'React', 'E-commerce'],
-  },
-  {
-    key: 'informando',
-    name: 'Informando - Citizen Participation',
-    description:
-      'Citizen participation application developed for ParqueSoft Nariño. Allows citizens to report and track local issues.',
-    tags: ['Ushahidi', 'Google Maps', 'Mobile', 'Government'],
-  },
-  {
-    key: 'pqrd',
-    name: 'Government PQRD System',
-    description:
-      'Petitions, Complaints, Claims and Reports system for government entities. Complete management of the citizen service cycle.',
-    tags: ['ProcessMaker', 'Digital Ocean', 'CentOS'],
-  },
-];
+function escapeSchemaString(s: string): string {
+  return s.replace(/</g, '\\u003c');
+}
 
-export function buildPersonSchema(): Record<string, unknown> {
+function toProjectSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+export function buildPersonSchema(
+  skills: string[],
+  alumniOf: AlumniInput[]
+): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -109,6 +36,8 @@ export function buildPersonSchema(): Record<string, unknown> {
     givenName: 'Lennin',
     familyName: 'Ibarra',
     jobTitle: 'Senior Frontend Engineer',
+    description:
+      'Senior Frontend Engineer with 10+ years specializing in React, TypeScript, and Next.js. Currently Front-End Architect at Monks, building scalable streaming platforms for Caracol TV.',
     email: 'ing.lenninibarra@gmail.com',
     url: BASE_URL,
     sameAs: [
@@ -120,11 +49,25 @@ export function buildPersonSchema(): Record<string, unknown> {
       name: 'Colombia',
     },
     knowsLanguage: ['Spanish', 'English'],
-    knowsAbout: ALL_SKILLS,
-    alumniOf: ALUMNI_OF,
+    knowsAbout: skills.map(escapeSchemaString),
+    alumniOf: alumniOf.map((a) => ({
+      '@type': 'EducationalOrganization',
+      name: a.name,
+      ...(a.location
+        ? {
+            address: {
+              '@type': 'PostalAddress',
+              addressLocality: a.location,
+              addressCountry: 'CO',
+            },
+          }
+        : {}),
+    })),
     worksFor: {
       '@type': 'Organization',
+      '@id': 'https://www.monks.com/#organization',
       name: 'Monks',
+      url: 'https://www.monks.com',
     },
     address: {
       '@type': 'PostalAddress',
@@ -135,7 +78,7 @@ export function buildPersonSchema(): Record<string, unknown> {
       '@type': 'Occupation',
       name: 'Senior Frontend Engineer',
       occupationalCategory: '15-1252.00',
-      skills: ALL_SKILLS.slice(0, 18).join(', '),
+      skills: skills.slice(0, 18).map(escapeSchemaString).join(', '),
       occupationLocation: {
         '@type': 'Country',
         name: 'Colombia',
@@ -189,21 +132,25 @@ export function buildProfilePageSchema(
   };
 }
 
-export function buildProjectsItemListSchema(): Record<string, unknown> {
+export function buildProjectsItemListSchema(
+  projects: ProjectInput[]
+): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Featured Projects by Lennin Ibarra',
     description: 'Portfolio of frontend development projects',
-    itemListElement: PROJECTS.map((project, index) => ({
+    itemListElement: projects.map((project, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      name: project.name,
+      '@id': `${BASE_URL}/#project-${toProjectSlug(project.title)}`,
+      name: project.title,
+      ...(project.url ? { url: project.url } : {}),
       item: {
         '@type': 'CreativeWork',
-        name: project.name,
+        name: project.title,
         description: project.description,
-        keywords: project.tags.join(', '),
+        keywords: project.technologies.join(', '),
         author: {
           '@id': `${BASE_URL}/#person`,
         },
