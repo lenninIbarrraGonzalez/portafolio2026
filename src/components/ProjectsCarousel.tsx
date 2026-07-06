@@ -48,6 +48,12 @@ const projects = [
     link: null,
     github: null,
   },
+  {
+    key: 'centrocontable',
+    image: '/images/centroContable.png',
+    link: null,
+    github: null,
+  },
 ];
 
 interface TiltCardProps {

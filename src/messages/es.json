@@ -326,6 +326,15 @@
           "Digital Ocean",
           "CentOS"
         ]
+      },
+      "centrocontable": {
+        "title": "Sistema BPM para Gestión de Procesos Contables",
+        "description": "Automatización de procesos contables mediante workflows, gestionando tareas, aprobaciones, notificaciones y el intercambio de información entre las diferentes áreas de la empresa y sus clientes.",
+        "tags": [
+          "ProcessMaker",
+          "PHP",
+          "CentOS"
+        ]
       }
     },
     "viewDetails": "Ver detalles",

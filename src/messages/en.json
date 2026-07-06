@@ -327,6 +327,15 @@
           "Digital Ocean",
           "CentOS"
         ]
+      },
+      "centrocontable": {
+        "title": "BPM System for Accounting Process Management",
+        "description": "Automation of accounting processes through workflows, managing tasks, approvals, notifications and the exchange of information between the different departments of the company and its clients.",
+        "tags": [
+          "ProcessMaker",
+          "PHP",
+          "CentOS"
+        ]
       }
     },
     "viewDetails": "View details",
