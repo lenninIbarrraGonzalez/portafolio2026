@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
+import Lenis from 'lenis';
 import { SmoothScroll } from '@/components/ui/SmoothScroll';
 
 // Import the mocked Lenis
-import Lenis from 'lenis';
 
 describe('SmoothScroll', () => {
   beforeEach(() => {

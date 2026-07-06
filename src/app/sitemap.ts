@@ -1,5 +1,5 @@
-import type { MetadataRoute } from 'next';
 import { routing } from '@/i18n/routing';
+import type { MetadataRoute } from 'next';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://lenninibarra.com';
 

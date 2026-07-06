@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { useEffect, useState, useRef, useCallback } from 'react';
 
 // WeakMap to track elements that have listeners attached
 const listenersAttached = new WeakSet<Element>();

@@ -62,7 +62,16 @@ const eslintConfig = defineConfig([
       "jsx-a11y/click-events-have-key-events": "warn",
       "jsx-a11y/no-static-element-interactions": "warn",
     }
-  }
+  },
+  // Test setup: jest.mock factories are hoisted above imports, so referencing
+  // an imported binding throws at transform time. require() inside the factory
+  // is the idiomatic (and required) pattern here.
+  {
+    files: ["jest.setup.ts", "**/*.test.ts", "**/*.test.tsx"],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

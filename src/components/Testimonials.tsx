@@ -1,9 +1,9 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
+import { Quote } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRef } from 'react';
-import { Quote } from 'lucide-react';
 import { fadeInUp, staggerContainerSlow } from '@/lib/animations';
 
 const testimonials = ['monks', 'hoitsu', 'itglobers'];

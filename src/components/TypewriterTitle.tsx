@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Typewriter from 'typewriter-effect';
+import { useIsHydrated } from '@/lib/hooks/useIsHydrated';
 
 interface TypewriterTitleProps {
   strings: string[];
@@ -9,13 +9,9 @@ interface TypewriterTitleProps {
 }
 
 export function TypewriterTitle({ strings, className = '' }: TypewriterTitleProps) {
-  const [mounted, setMounted] = useState(false);
+  const isHydrated = useIsHydrated();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
+  if (!isHydrated) {
     return (
       <span className={className}>
         {strings[0]}

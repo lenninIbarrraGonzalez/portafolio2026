@@ -1,10 +1,10 @@
 'use client';
 
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { Calendar, ChevronRight, Trophy, RotateCw } from 'lucide-react';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useRef } from 'react';
-import Image from 'next/image';
-import { Calendar, ChevronRight, Trophy, RotateCw } from 'lucide-react';
 import { slideInFromLeft, slideInFromRight, staggerContainer } from '@/lib/animations';
 
 // FlipCard component with CSS-only flip animation (more stable than framer-motion for 3D)

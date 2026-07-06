@@ -1,11 +1,11 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
+import { Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRef, useState } from 'react';
-import { Send, CheckCircle, AlertCircle } from 'lucide-react';
-import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { CONTACT_SOCIAL_LINKS } from '@/config/social';
+import { fadeInUp, staggerContainer } from '@/lib/animations';
 
 // Email validation regex
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

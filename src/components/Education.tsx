@@ -1,10 +1,10 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTranslations } from 'next-intl';
-import { useRef, useState } from 'react';
 import { useInView } from 'framer-motion';
 import { GraduationCap, Award, BookOpen, MapPin, Calendar } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { useRef, useState } from 'react';
 
 const educationItems = [
   { key: 'university', icon: GraduationCap },

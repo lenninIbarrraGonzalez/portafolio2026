@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 // Type for code segments
 type CodeSegment = { text: string; color: string };
@@ -151,28 +151,33 @@ export function CodeEditor({ isInView, className = '' }: CodeEditorProps) {
   const [displayedSegments, setDisplayedSegments] = useState<CodeSegment[]>([]);
   const [currentSegmentIndex, setCurrentSegmentIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
-  const [isTypingComplete, setIsTypingComplete] = useState(false);
-  const [cycleKey, setCycleKey] = useState(0);
+  // Deterministic on first render/SSR (index 0); randomized after mount to
+  // avoid a hydration mismatch and keep render pure.
+  const [variationIndex, setVariationIndex] = useState(0);
 
   // Use refs for timer cleanup
   const typingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const restartTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Select a random variation when cycleKey changes
-  const currentVariation = useMemo(() => {
-    const randomIndex = Math.floor(Math.random() * codeVariations.length);
-    return codeVariations[randomIndex];
-  }, [cycleKey]);
-
+  const currentVariation = codeVariations[variationIndex];
   const codeLines = currentVariation.code;
   const filename = currentVariation.filename;
+
+  // Derived: typing is done once every segment has been rendered. Resetting
+  // currentSegmentIndex flips this back to false without extra state.
+  const isTypingComplete = currentSegmentIndex >= codeLines.length;
+
+  // Pick a random starting variation after mount (client-only).
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe: SSR renders index 0, randomize after mount
+    setVariationIndex(Math.floor(Math.random() * codeVariations.length));
+  }, []);
 
   // Typing animation effect
   useEffect(() => {
     if (!isInView) return;
 
     if (currentSegmentIndex >= codeLines.length) {
-      setIsTypingComplete(true);
       return;
     }
 
@@ -226,8 +231,7 @@ export function CodeEditor({ isInView, className = '' }: CodeEditorProps) {
       setDisplayedSegments([]);
       setCurrentSegmentIndex(0);
       setCurrentCharIndex(0);
-      setIsTypingComplete(false);
-      setCycleKey((k) => k + 1); // Trigger new random variation
+      setVariationIndex(Math.floor(Math.random() * codeVariations.length)); // New random variation
     }, 6000);
 
     return () => {

@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useTranslations } from 'next-intl';
 import { Heart, Coffee } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export function Footer() {
   const t = useTranslations('footer');

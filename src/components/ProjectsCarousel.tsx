@@ -1,14 +1,15 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { useTranslations } from 'next-intl';
-import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
+import { motion, useInView } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { fadeInUp } from '@/lib/animations';
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
+import { useState, useCallback, useRef } from 'react';
+import { ProjectModal, type Project } from '@/components/ProjectModal';
 import { MagneticButton } from '@/components/ui/MagneticButton';
-import { ProjectModal } from '@/components/ProjectModal';
+import { fadeInUp } from '@/lib/animations';
+import { useCarouselSelection } from '@/lib/hooks/useCarouselSelection';
 
 const projects = [
   {
@@ -105,27 +106,11 @@ export function ProjectsCarousel() {
     dragFree: true,
   });
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const { selectedIndex } = useCarouselSelection(emblaApi);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-    setCanScrollPrev(emblaApi.canScrollPrev());
-    setCanScrollNext(emblaApi.canScrollNext());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on('select', onSelect);
-    emblaApi.on('reInit', onSelect);
-  }, [emblaApi, onSelect]);
 
   const handleProjectClick = (project: typeof projects[0]) => {
     const projectData = {

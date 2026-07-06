@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 import { X, ExternalLink, Github } from 'lucide-react';
+import Image from 'next/image';
+import { useEffect, useRef, useCallback } from 'react';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 
-interface Project {
+export interface Project {
   key: string;
   image: string;
   link: string | null;

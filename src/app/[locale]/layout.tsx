@@ -11,9 +11,18 @@ import {
   buildProfilePageSchema,
   buildProjectsItemListSchema,
 } from '@/lib/structured-data';
-import type { Messages } from '@/types/messages';
+import enMessages from '@/messages/en.json';
+import esMessages from '@/messages/es.json';
 import type { Metadata } from 'next';
 import '../globals.css';
+
+// Typed, build-time access to message content for metadata and structured data.
+// next-intl's runtime getMessages() stays for the client provider only.
+const contentByLocale = { es: esMessages, en: enMessages };
+
+function getContent(locale: string) {
+  return contentByLocale[locale as keyof typeof contentByLocale] ?? esMessages;
+}
 
 const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
@@ -31,8 +40,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const messages = await getMessages({ locale });
-  const metadata = messages.metadata as { title: string; description: string; keywords: string[] };
+  const { metadata } = getContent(locale);
 
   const canonicalUrl = locale === routing.defaultLocale ? BASE_URL : `${BASE_URL}/${locale}`;
   const ogLocale = locale === 'es' ? 'es_CO' : 'en_US';
@@ -98,20 +106,19 @@ export default async function LocaleLayout({
   const { locale } = await params;
   setRequestLocale(locale);
   const messages = await getMessages();
-  const metadata = messages.metadata as { title: string; description: string; keywords: string[] };
+  const content = getContent(locale);
+  const { metadata } = content;
 
-  const typedMessages = messages as unknown as Messages;
-  const skills = Object.values(typedMessages.skills.categories).flatMap((c) => c.skills);
-  const alumni = Object.values(typedMessages.education.items).map((e) => ({
+  const skills = Object.values(content.skills.categories).flatMap((c) => c.skills);
+  const alumni = Object.values(content.education.items).map((e) => ({
     name: e.institution,
     location: e.location,
     description: e.description,
   }));
-  const projects = Object.values(typedMessages.projects.items).map((p) => ({
+  const projects = Object.values(content.projects.items).map((p) => ({
     title: p.title,
     description: p.description,
     technologies: p.tags ?? [],
-    url: p.url,
   }));
 
   return (

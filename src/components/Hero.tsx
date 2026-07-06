@@ -1,13 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useTranslations } from 'next-intl';
 import { ArrowDown, Download } from 'lucide-react';
-import { fadeInUp, staggerContainerFast } from '@/lib/animations';
-import { MagneticButton } from '@/components/ui/MagneticButton';
-import { TypewriterTitle } from '@/components/TypewriterTitle';
+import { useTranslations } from 'next-intl';
 import { CodeEditor } from '@/components/CodeEditor';
+import { TypewriterTitle } from '@/components/TypewriterTitle';
+import { MagneticButton } from '@/components/ui/MagneticButton';
 import { HERO_SOCIAL_LINKS, LINKEDIN_URL, PERSONAL_INFO } from '@/config/social';
+import { fadeInUp, staggerContainerFast } from '@/lib/animations';
 
 export function Hero() {
   const t = useTranslations('hero');

@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { useRef } from 'react';
+import { type IconType } from 'react-icons';
 import {
   SiReact,
   SiTypescript,
@@ -25,7 +26,6 @@ import {
   SiWebpack,
   SiGithubactions,
 } from 'react-icons/si';
-import { IconType } from 'react-icons';
 
 interface Skill {
   icon: IconType;

@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { useTranslations } from 'next-intl';
-import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
+import { motion, useInView } from 'framer-motion';
 import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
-import { fadeInUp } from '@/lib/animations';
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
+import { useCallback, useRef } from 'react';
 import { MagneticButton } from '@/components/ui/MagneticButton';
+import { fadeInUp } from '@/lib/animations';
+import { useCarouselSelection } from '@/lib/hooks/useCarouselSelection';
 
 const demos = [
   { key: 'monks', image: '/images/demos/monks.png', url: 'https://monks-vod.vercel.app/' },
@@ -31,22 +32,10 @@ export function ClientDemos() {
     dragFree: true,
   });
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const { selectedIndex } = useCarouselSelection(emblaApi);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on('select', onSelect);
-    emblaApi.on('reInit', onSelect);
-  }, [emblaApi, onSelect]);
 
   const openDemo = (url: string) => {
     window.open(url, '_blank', 'noopener,noreferrer');

@@ -1,5 +1,9 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Header } from '@/components/Header';
+import { ThemeProvider } from '@/components/ThemeProvider';
+
+// Header consumes useTheme(), so it must render within a ThemeProvider.
+const renderHeader = () => render(<Header />, { wrapper: ThemeProvider });
 
 describe('Header', () => {
   beforeEach(() => {
@@ -9,12 +13,12 @@ describe('Header', () => {
   });
 
   it('renders the logo', () => {
-    render(<Header />);
+    renderHeader();
     expect(screen.getByText('@lennin')).toBeInTheDocument();
   });
 
   it('renders navigation items', () => {
-    render(<Header />);
+    renderHeader();
     expect(screen.getByText('about')).toBeInTheDocument();
     expect(screen.getByText('experience')).toBeInTheDocument();
     expect(screen.getByText('skills')).toBeInTheDocument();
@@ -23,22 +27,22 @@ describe('Header', () => {
   });
 
   it('renders language toggle button', () => {
-    render(<Header />);
+    renderHeader();
     expect(screen.getByLabelText('language')).toBeInTheDocument();
   });
 
   it('renders theme toggle button', () => {
-    render(<Header />);
+    renderHeader();
     expect(screen.getByLabelText(/mode/i)).toBeInTheDocument();
   });
 
   it('renders mobile menu toggle button', () => {
-    render(<Header />);
+    renderHeader();
     expect(screen.getByLabelText('Menu')).toBeInTheDocument();
   });
 
   it('toggles mobile menu when clicking menu button', () => {
-    render(<Header />);
+    renderHeader();
     const menuButton = screen.getByLabelText('Menu');
 
     // Open menu
@@ -50,7 +54,7 @@ describe('Header', () => {
   });
 
   it('toggles theme when clicking theme button', () => {
-    render(<Header />);
+    renderHeader();
     const themeButton = screen.getByLabelText(/mode/i);
 
     fireEvent.click(themeButton);
@@ -59,7 +63,7 @@ describe('Header', () => {
   });
 
   it('applies scrolled styles when scrolled', () => {
-    render(<Header />);
+    renderHeader();
 
     act(() => {
       Object.defineProperty(window, 'scrollY', { value: 100, writable: true });
@@ -71,13 +75,13 @@ describe('Header', () => {
   });
 
   it('has fixed positioning', () => {
-    render(<Header />);
+    renderHeader();
     const header = document.querySelector('.fixed');
     expect(header).toBeInTheDocument();
   });
 
   it('has high z-index for visibility', () => {
-    render(<Header />);
+    renderHeader();
     const header = document.querySelector('.z-50');
     expect(header).toBeInTheDocument();
   });
@@ -89,7 +93,7 @@ describe('Header', () => {
     mockSection.scrollIntoView = jest.fn();
     document.body.appendChild(mockSection);
 
-    render(<Header />);
+    renderHeader();
     const navButton = screen.getAllByText('about')[0];
 
     fireEvent.click(navButton);

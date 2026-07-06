@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 interface LoadingScreenProps {
   onComplete?: () => void;
@@ -22,9 +22,11 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const isCompleteTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const hideLoadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Memoize onComplete to prevent dependency issues
+  // Keep the latest onComplete in a ref without re-triggering the loading effect.
   const onCompleteRef = useRef(onComplete);
-  onCompleteRef.current = onComplete;
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  });
 
   const codeLines = [
     '> Initializing portfolio...',
@@ -45,17 +47,13 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
   }, []);
 
   useEffect(() => {
-    // Check if user has already seen loading screen in this session
+    // Skip the splash if it was already shown this session or the user prefers
+    // reduced motion. We render the splash first and decide here so the server
+    // and first client render match (avoids a hydration mismatch).
     const hasSeenLoading = sessionStorage.getItem('hasSeenLoading');
-    if (hasSeenLoading) {
-      setShowLoading(false);
-      onCompleteRef.current?.();
-      return;
-    }
-
-    // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
+    if (hasSeenLoading || prefersReducedMotion) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional one-shot skip, kept in an effect to stay hydration-safe
       setShowLoading(false);
       sessionStorage.setItem('hasSeenLoading', 'true');
       onCompleteRef.current?.();

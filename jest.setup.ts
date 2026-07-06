@@ -83,6 +83,7 @@ jest.mock('framer-motion', () => {
       label: createMotionComponent('label'),
     },
     AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
+    MotionConfig: ({ children }: { children: React.ReactNode }) => children,
     useInView: () => true,
     useAnimation: () => ({
       start: jest.fn(),
@@ -159,20 +160,19 @@ jest.mock('@react-three/drei', () => ({
 
 // Mock embla-carousel-react
 jest.mock('embla-carousel-react', () => {
-  return jest.fn().mockReturnValue([
-    jest.fn(), // ref
-    {
-      scrollPrev: jest.fn(),
-      scrollNext: jest.fn(),
-      scrollTo: jest.fn(),
-      canScrollPrev: jest.fn().mockReturnValue(true),
-      canScrollNext: jest.fn().mockReturnValue(true),
-      on: jest.fn(),
-      off: jest.fn(),
-      selectedScrollSnap: jest.fn().mockReturnValue(0),
-      scrollSnapList: jest.fn().mockReturnValue([0, 1, 2]),
-    },
-  ]);
+  // Embla's real on/off return the api instance so calls can be chained.
+  const api: Record<string, unknown> = {
+    scrollPrev: jest.fn(),
+    scrollNext: jest.fn(),
+    scrollTo: jest.fn(),
+    canScrollPrev: jest.fn().mockReturnValue(true),
+    canScrollNext: jest.fn().mockReturnValue(true),
+    on: jest.fn(() => api),
+    off: jest.fn(() => api),
+    selectedScrollSnap: jest.fn().mockReturnValue(0),
+    scrollSnapList: jest.fn().mockReturnValue([0, 1, 2]),
+  };
+  return jest.fn().mockReturnValue([jest.fn(), api]);
 });
 
 // Mock embla-carousel-autoplay
@@ -423,7 +423,7 @@ jest.mock('@/config/social', () => {
 jest.mock('next/image', () => {
   const React = require('react');
   return function MockImage({ src, alt, ...props }: { src: string; alt: string; [key: string]: unknown }) {
-    // eslint-disable-next-line @next/next/no-img-element
+     
     return React.createElement('img', { src, alt, ...props });
   };
 });
