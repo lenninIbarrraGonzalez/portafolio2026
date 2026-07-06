@@ -11,6 +11,7 @@ import {
   buildProfilePageSchema,
   buildProjectsItemListSchema,
 } from '@/lib/structured-data';
+import type { Messages } from '@/types/messages';
 import type { Metadata } from 'next';
 import '../globals.css';
 
@@ -99,26 +100,14 @@ export default async function LocaleLayout({
   const messages = await getMessages();
   const metadata = messages.metadata as { title: string; description: string; keywords: string[] };
 
-  // Extract skills: flatten all category skill lists
-  const messagesAny = messages as Record<string, unknown>;
-  const skillsData = messagesAny.skills as {
-    categories: Record<string, { skills: string[] }>;
-  };
-  const skills = Object.values(skillsData.categories).flatMap((c) => c.skills);
-
-  // Extract alumni from education items
-  type EducationItem = { institution: string; location?: string; date: string };
-  const eduData = messagesAny.education as { items: Record<string, EducationItem> };
-  const alumni = Object.values(eduData.items).map((e) => ({
+  const typedMessages = messages as unknown as Messages;
+  const skills = Object.values(typedMessages.skills.categories).flatMap((c) => c.skills);
+  const alumni = Object.values(typedMessages.education.items).map((e) => ({
     name: e.institution,
-    location: e.location || undefined,
-    endDate: e.date,
+    location: e.location,
+    description: e.description,
   }));
-
-  // Extract projects
-  type ProjectItem = { title: string; description: string; tags: string[]; url?: string };
-  const projData = messagesAny.projects as { items: Record<string, ProjectItem> };
-  const projects = Object.values(projData.items).map((p) => ({
+  const projects = Object.values(typedMessages.projects.items).map((p) => ({
     title: p.title,
     description: p.description,
     technologies: p.tags ?? [],

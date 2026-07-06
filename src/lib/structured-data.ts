@@ -3,7 +3,7 @@ import { BASE_URL } from '@/lib/config';
 export interface AlumniInput {
   name: string;
   location?: string;
-  endDate?: string;
+  description?: string;
 }
 
 export interface ProjectInput {
@@ -11,10 +11,6 @@ export interface ProjectInput {
   description: string;
   technologies: string[];
   url?: string;
-}
-
-function escapeSchemaString(s: string): string {
-  return s.replace(/</g, '\\u003c');
 }
 
 function toProjectSlug(title: string): string {
@@ -49,10 +45,11 @@ export function buildPersonSchema(
       name: 'Colombia',
     },
     knowsLanguage: ['Spanish', 'English'],
-    knowsAbout: skills.map(escapeSchemaString),
+    knowsAbout: skills,
     alumniOf: alumniOf.map((a) => ({
       '@type': 'EducationalOrganization',
       name: a.name,
+      ...(a.description ? { description: a.description } : {}),
       ...(a.location
         ? {
             address: {
@@ -78,7 +75,7 @@ export function buildPersonSchema(
       '@type': 'Occupation',
       name: 'Senior Frontend Engineer',
       occupationalCategory: '15-1252.00',
-      skills: skills.slice(0, 18).map(escapeSchemaString).join(', '),
+      skills: skills.slice(0, 18).join(', '),
       occupationLocation: {
         '@type': 'Country',
         name: 'Colombia',

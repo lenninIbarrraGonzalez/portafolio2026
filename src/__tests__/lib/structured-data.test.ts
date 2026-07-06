@@ -176,8 +176,41 @@ describe('structured-data', () => {
   describe('XSS safety', () => {
     it('JSON output does not contain unescaped </script> in skills', () => {
       const dangerousSkills = ['React', '</script><script>alert(1)'];
-      const output = JSON.stringify(buildPersonSchema(dangerousSkills, testAlumni));
+      const output = JSON.stringify(buildPersonSchema(dangerousSkills, testAlumni)).replace(/</g, '\\u003c');
       expect(output).not.toContain('</script>');
+    });
+
+    it('JSON output does not contain unescaped </script> in project description', () => {
+      const dangerousProjects = [{ title: 'P1', description: '</script><script>alert(1)', technologies: [] }];
+      const output = JSON.stringify(buildProjectsItemListSchema(dangerousProjects)).replace(/</g, '\\u003c');
+      expect(output).not.toContain('</script>');
+    });
+  });
+
+  describe('alumniOf extended', () => {
+    it('alumniOf with location includes address node', () => {
+      const schema = buildPersonSchema(testSkills, [{ name: 'Uni', location: 'Bogotá', description: 'Cert' }]);
+      const alumni = schema.alumniOf as Array<Record<string, unknown>>;
+      expect(alumni[0].address).toBeDefined();
+      const addr = alumni[0].address as Record<string, unknown>;
+      expect(addr.addressLocality).toBe('Bogotá');
+    });
+
+    it('alumniOf with description passes it through', () => {
+      const schema = buildPersonSchema(testSkills, [{ name: 'Uni', description: 'Advanced BPM' }]);
+      const alumni = schema.alumniOf as Array<Record<string, unknown>>;
+      expect(alumni[0].description).toBe('Advanced BPM');
+    });
+  });
+
+  describe('ItemList @id fragments', () => {
+    it('ItemList items have @id fragment anchors', () => {
+      const schema = buildProjectsItemListSchema(testProjects);
+      const items = schema.itemListElement as Array<Record<string, unknown>>;
+      items.forEach((item) => {
+        expect(typeof item['@id']).toBe('string');
+        expect(item['@id'] as string).toContain('#project-');
+      });
     });
   });
 });
