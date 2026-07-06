@@ -106,6 +106,9 @@ body {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  /* Establish a non-static positioning context so framer-motion can measure
+     scroll offsets against the root scroll container (useScroll target). */
+  position: relative;
 }
 
 /* Selection color */

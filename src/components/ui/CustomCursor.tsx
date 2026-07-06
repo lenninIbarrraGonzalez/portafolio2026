@@ -2,11 +2,13 @@
 
 import { motion, useSpring, useMotionValue } from 'framer-motion';
 import { useEffect, useState, useRef, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 
 // WeakMap to track elements that have listeners attached
 const listenersAttached = new WeakSet<Element>();
 
 export function CustomCursor() {
+  const t = useTranslations('projects');
   const [isHovering, setIsHovering] = useState(false);
   const [isHoveringImage, setIsHoveringImage] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -133,7 +135,7 @@ export function CustomCursor() {
             height: isHoveringImage ? 80 : isHovering ? 60 : 40,
             opacity: isVisible ? 1 : 0,
             borderColor: isHovering ? 'var(--primary)' : 'var(--primary)',
-            backgroundColor: isHoveringImage ? 'rgba(255, 107, 53, 0.1)' : 'transparent',
+            backgroundColor: isHoveringImage ? 'rgba(255, 107, 53, 0.1)' : 'rgba(255, 107, 53, 0)',
           }}
           transition={{ duration: 0.2 }}
         >
@@ -144,7 +146,7 @@ export function CustomCursor() {
               exit={{ opacity: 0, scale: 0.5 }}
               className="text-xs font-medium text-primary"
             >
-              View
+              {t('view')}
             </motion.span>
           )}
         </motion.div>

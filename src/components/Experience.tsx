@@ -150,6 +150,7 @@ export function Experience() {
                               src={job.logo}
                               alt={t(`jobs.${job.key}.company`)}
                               fill
+                              sizes="40px"
                               className="object-contain p-1"
                             />
                           </div>
@@ -228,6 +229,7 @@ export function Experience() {
                               src={job.logo}
                               alt={t(`jobs.${job.key}.company`)}
                               fill
+                              sizes="40px"
                               className="object-contain p-1"
                             />
                           </div>

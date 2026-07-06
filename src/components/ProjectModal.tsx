@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Github } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 
 export interface Project {
@@ -23,6 +24,7 @@ interface ProjectModalProps {
 }
 
 export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
+  const t = useTranslations('projects');
   const modalRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -142,6 +144,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                 src={project.image}
                 alt={project.title}
                 fill
+                sizes="(max-width: 768px) 100vw, 800px"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
@@ -178,7 +181,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                     className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
                   >
                     <ExternalLink className="w-4 h-4" />
-                    View Project
+                    {t('viewProject')}
                   </MagneticButton>
                 )}
                 {project.github && (
@@ -190,7 +193,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                     className="flex items-center gap-2 px-4 py-2 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-colors"
                   >
                     <Github className="w-4 h-4" />
-                    View Code
+                    {t('viewCode')}
                   </MagneticButton>
                 )}
               </div>

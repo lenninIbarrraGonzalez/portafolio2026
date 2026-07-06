@@ -57,10 +57,10 @@ interface TiltCardProps {
 }
 
 function TiltCard({ children, className = '', onClick }: TiltCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLElement>(null);
   const [transform, setTransform] = useState('');
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     if (!cardRef.current) return;
 
     const rect = cardRef.current.getBoundingClientRect();
@@ -80,15 +80,24 @@ function TiltCard({ children, className = '', onClick }: TiltCardProps) {
     setTransform('');
   };
 
+  const sharedProps = {
+    ref: cardRef as React.Ref<HTMLButtonElement & HTMLDivElement>,
+    className: `tilt-card ${className}`,
+    onMouseMove: handleMouseMove,
+    onMouseLeave: handleMouseLeave,
+    style: { transform, transition: 'transform 0.1s ease-out' },
+  };
+
+  if (onClick) {
+    return (
+      <button type="button" {...sharedProps} onClick={onClick}>
+        {children}
+      </button>
+    );
+  }
+
   return (
-    <div
-      ref={cardRef}
-      className={`tilt-card ${className}`}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onClick={onClick}
-      style={{ transform, transition: 'transform 0.1s ease-out' }}
-    >
+    <div {...sharedProps}>
       {children}
     </div>
   );
@@ -169,11 +178,12 @@ export function ProjectsCarousel() {
                           src={project.image}
                           alt={t(`items.${project.key}.title`)}
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                           <span className="text-white font-medium px-4 py-2 bg-primary rounded-lg">
-                            View Details
+                            {t('viewDetails')}
                           </span>
                         </div>
                       </div>

@@ -91,18 +91,18 @@ describe('ProjectModal', () => {
 
   it('renders View Project link when link is provided', () => {
     render(<ProjectModal project={mockProject} isOpen={true} onClose={() => {}} />);
-    expect(screen.getByText('View Project')).toBeInTheDocument();
+    expect(screen.getByText('viewProject')).toBeInTheDocument();
   });
 
   it('renders View Code link when github is provided', () => {
     render(<ProjectModal project={mockProject} isOpen={true} onClose={() => {}} />);
-    expect(screen.getByText('View Code')).toBeInTheDocument();
+    expect(screen.getByText('viewCode')).toBeInTheDocument();
   });
 
   it('does not render View Project link when link is null', () => {
     const projectNoLink = { ...mockProject, link: null };
     render(<ProjectModal project={projectNoLink} isOpen={true} onClose={() => {}} />);
-    expect(screen.queryByText('View Project')).not.toBeInTheDocument();
+    expect(screen.queryByText('viewProject')).not.toBeInTheDocument();
   });
 
   it('sets body overflow to hidden when open', () => {

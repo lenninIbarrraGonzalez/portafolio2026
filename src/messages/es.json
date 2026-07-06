@@ -223,19 +223,47 @@
     "categories": {
       "frontend": {
         "title": "Frontend",
-        "skills": ["React", "Next.js", "TypeScript", "Vue.js", "Tailwind CSS", "Framer Motion"]
+        "skills": [
+          "React",
+          "Next.js",
+          "TypeScript",
+          "Vue.js",
+          "Tailwind CSS",
+          "Framer Motion"
+        ]
       },
       "backend": {
         "title": "Backend",
-        "skills": ["Node.js", "Python", "REST APIs", "GraphQL", "PostgreSQL", "MongoDB"]
+        "skills": [
+          "Node.js",
+          "Python",
+          "REST APIs",
+          "GraphQL",
+          "PostgreSQL",
+          "MongoDB"
+        ]
       },
       "tools": {
         "title": "Herramientas",
-        "skills": ["Git", "Docker", "AWS", "Vercel", "Figma", "Jest"]
+        "skills": [
+          "Git",
+          "Docker",
+          "AWS",
+          "Vercel",
+          "Figma",
+          "Jest"
+        ]
       },
       "soft": {
         "title": "Habilidades Blandas",
-        "skills": ["Liderazgo técnico", "Mentoría", "Comunicación", "Trabajo en equipo", "Resolución de problemas", "Inglés profesional"]
+        "skills": [
+          "Liderazgo técnico",
+          "Mentoría",
+          "Comunicación",
+          "Trabajo en equipo",
+          "Resolución de problemas",
+          "Inglés profesional"
+        ]
       }
     }
   },
@@ -247,46 +275,87 @@
       "ditu": {
         "title": "DITU - Plataforma de Streaming",
         "description": "Plataforma de streaming para Caracol TV desarrollada en Media.Monks. Arquitectura moderna con React y optimización de rendimiento para millones de usuarios.",
-        "tags": ["SolidJS", "Tizen", "NPAW"]
+        "tags": [
+          "SolidJS",
+          "Tizen",
+          "NPAW"
+        ]
       },
       "bpmn": {
         "title": "Editor de Procesos BPMN",
         "description": "Editor visual de procesos empresariales para Hoitsu. Permite diseñar y automatizar flujos de trabajo con drag & drop intuitivo.",
-        "tags": ["Next.js", "GraphQL", "GitHub"]
+        "tags": [
+          "Next.js",
+          "GraphQL",
+          "GitHub"
+        ]
       },
       "tigo": {
         "title": "E-commerce Tigo",
         "description": "Plataforma de e-commerce para Tigo Colombia desarrollada en Indra. Flujos de compra optimizados y integración con múltiples pasarelas de pago.",
-        "tags": ["jQuery", "HTML", "CSS"]
+        "tags": [
+          "jQuery",
+          "HTML",
+          "CSS"
+        ]
       },
       "romancerelax": {
         "title": "Romance Relax E-commerce",
         "description": "Tienda online desarrollada con VTEX IO para IT Globers. Experiencia de compra personalizada y alto rendimiento.",
-        "tags": ["VTEX IO", "React", "E-commerce"]
+        "tags": [
+          "VTEX IO",
+          "React",
+          "E-commerce"
+        ]
       },
       "informando": {
         "title": "Informando - Participación Ciudadana",
         "description": "Aplicación de participación ciudadana desarrollada para ParqueSoft Nariño. Permite a ciudadanos reportar y dar seguimiento a problemáticas locales.",
-        "tags": ["Ushahidi", "Google Maps", "Mobile", "Gobierno"]
+        "tags": [
+          "Ushahidi",
+          "Google Maps",
+          "Mobile",
+          "Gobierno"
+        ]
       },
       "pqrd": {
         "title": "Sistema PQRD Gubernamental",
         "description": "Sistema de Peticiones, Quejas, Reclamos y Denuncias para entidades gubernamentales. Gestión completa del ciclo de atención al ciudadano.",
-        "tags": ["ProcessMaker", "Digital Ocean", "CentOS"]
+        "tags": [
+          "ProcessMaker",
+          "Digital Ocean",
+          "CentOS"
+        ]
       }
-    }
+    },
+    "viewDetails": "Ver detalles",
+    "view": "Ver"
   },
   "clientDemos": {
     "title": "Showcase de Clientes",
     "viewDemo": "Ver demo",
     "items": {
-      "monks": { "title": "Monks VOD" },
-      "neostella": { "title": "Neostella" },
-      "parkinkcentro": { "title": "Parkink Centro" },
-      "bpmn": { "title": "ProcessFlow BPMN" },
-      "parkink": { "title": "Parkink V2" },
-      "gestiondocumental": { "title": "Gestión Documental" },
-      "processflow": { "title": "ProcessFlow" }
+      "monks": {
+        "title": "Monks VOD"
+      },
+      "neostella": {
+        "title": "Neostella"
+      },
+      "parkinkcentro": {
+        "title": "Parkink Centro"
+      },
+      "bpmn": {
+        "title": "ProcessFlow BPMN"
+      },
+      "parkink": {
+        "title": "Parkink V2"
+      },
+      "gestiondocumental": {
+        "title": "Gestión Documental"
+      },
+      "processflow": {
+        "title": "ProcessFlow"
+      }
     }
   },
   "testimonials": {
