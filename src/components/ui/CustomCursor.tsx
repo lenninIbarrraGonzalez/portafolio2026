@@ -130,7 +130,7 @@ export function CustomCursor() {
             width: isHoveringImage ? 80 : isHovering ? 60 : 40,
             height: isHoveringImage ? 80 : isHovering ? 60 : 40,
             opacity: isVisible ? 1 : 0,
-            borderColor: isHovering ? 'var(--primary)' : 'var(--primary)',
+            borderColor: 'var(--primary)',
             backgroundColor: isHoveringImage ? 'rgba(255, 107, 53, 0.1)' : 'rgba(255, 107, 53, 0)',
           }}
           transition={{ duration: 0.2 }}
