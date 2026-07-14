@@ -1,11 +1,12 @@
 'use client';
 
 import { motion, useSpring, useMotionValue } from 'framer-motion';
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 
-// WeakMap to track elements that have listeners attached
-const listenersAttached = new WeakSet<Element>();
+const INTERACTIVE_SELECTOR =
+  'a, button, [role="button"], input, textarea, select, [data-cursor-hover]';
+const IMAGE_SELECTOR = 'img, [data-cursor-expand]';
 
 export function CustomCursor() {
   const t = useTranslations('projects');
@@ -21,12 +22,6 @@ export function CustomCursor() {
   const springConfig = { damping: 25, stiffness: 400 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
-
-  // Stable event handlers using useCallback
-  const handleInteractiveEnter = useCallback(() => setIsHovering(true), []);
-  const handleInteractiveLeave = useCallback(() => setIsHovering(false), []);
-  const handleImageEnter = useCallback(() => setIsHoveringImage(true), []);
-  const handleImageLeave = useCallback(() => setIsHoveringImage(false), []);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -50,47 +45,46 @@ export function CustomCursor() {
     const handleMouseEnter = () => setIsVisible(true);
     const handleMouseLeave = () => setIsVisible(false);
 
-    const addHoverListeners = () => {
-      const interactiveElements = document.querySelectorAll(
-        'a, button, [role="button"], input, textarea, select, [data-cursor-hover]'
-      );
-      const imageElements = document.querySelectorAll('img, [data-cursor-expand]');
+    // Event delegation: two bubbling listeners on `document` replace the previous
+    // per-element listeners + MutationObserver. `mouseover`/`mouseout` bubble, so
+    // `closest()` resolves the interactive ancestor without querying the DOM or
+    // observing subtree mutations — this removes the forced-reflow hot path.
+    const handleOver = (e: MouseEvent) => {
+      const target = e.target as Element | null;
+      if (!target?.closest) return;
+      if (target.closest(IMAGE_SELECTOR)) {
+        setIsHoveringImage(true);
+      } else if (target.closest(INTERACTIVE_SELECTOR)) {
+        setIsHovering(true);
+      }
+    };
 
-      interactiveElements.forEach((el) => {
-        // Only add listeners if not already attached
-        if (!listenersAttached.has(el)) {
-          el.addEventListener('mouseenter', handleInteractiveEnter);
-          el.addEventListener('mouseleave', handleInteractiveLeave);
-          listenersAttached.add(el);
-        }
-      });
-
-      imageElements.forEach((el) => {
-        // Only add listeners if not already attached
-        if (!listenersAttached.has(el)) {
-          el.addEventListener('mouseenter', handleImageEnter);
-          el.addEventListener('mouseleave', handleImageLeave);
-          listenersAttached.add(el);
-        }
-      });
+    const handleOut = (e: MouseEvent) => {
+      const target = e.target as Element | null;
+      if (!target?.closest) return;
+      const related = e.relatedTarget as Element | null;
+      if (target.closest(IMAGE_SELECTOR) && !related?.closest?.(IMAGE_SELECTOR)) {
+        setIsHoveringImage(false);
+      }
+      if (target.closest(INTERACTIVE_SELECTOR) && !related?.closest?.(INTERACTIVE_SELECTOR)) {
+        setIsHovering(false);
+      }
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     document.body.addEventListener('mouseenter', handleMouseEnter);
     document.body.addEventListener('mouseleave', handleMouseLeave);
-
-    addHoverListeners();
-
-    const observer = new MutationObserver(addHoverListeners);
-    observer.observe(document.body, { childList: true, subtree: true });
+    document.addEventListener('mouseover', handleOver);
+    document.addEventListener('mouseout', handleOut);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       document.body.removeEventListener('mouseenter', handleMouseEnter);
       document.body.removeEventListener('mouseleave', handleMouseLeave);
-      observer.disconnect();
+      document.removeEventListener('mouseover', handleOver);
+      document.removeEventListener('mouseout', handleOut);
     };
-  }, [cursorX, cursorY, isVisible, isMobile, handleInteractiveEnter, handleInteractiveLeave, handleImageEnter, handleImageLeave]);
+  }, [cursorX, cursorY, isVisible, isMobile]);
 
   if (isMobile) return null;
 
@@ -105,10 +99,11 @@ export function CustomCursor() {
           y: cursorY,
           translateX: '-50%',
           translateY: '-50%',
+          willChange: 'transform',
         }}
       >
         <motion.div
-          className="rounded-full bg-white"
+          className="rounded-full bg-primary dark:bg-white"
           animate={{
             width: 8,
             height: 8,
@@ -126,6 +121,7 @@ export function CustomCursor() {
           y: cursorYSpring,
           translateX: '-50%',
           translateY: '-50%',
+          willChange: 'transform',
         }}
       >
         <motion.div
