@@ -421,5 +421,19 @@
     "english": "English",
     "darkMode": "Modo oscuro",
     "lightMode": "Modo claro"
+  },
+  "codeEditor": {
+    "tabs": {
+      "problems": "Problems",
+      "output": "Output",
+      "terminal": "Terminal"
+    },
+    "header": "── Claude Code v2.1.11 ──",
+    "welcomeBack": "¡Bienvenido de nuevo, Lennin!",
+    "tipsTitle": "Consejos para empezar",
+    "tipsContent": "Ejecutá /init para crear un archivo CLAUDE.md",
+    "recentActivityTitle": "Actividad reciente",
+    "noRecentActivity": "Sin actividad reciente",
+    "commandSuggestion": "Probá \"editar {filename} para...\""
   }
 }

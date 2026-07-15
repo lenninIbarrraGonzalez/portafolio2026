@@ -7,7 +7,7 @@ import { CodeEditor } from '@/components/CodeEditor';
 import { TypewriterTitle } from '@/components/TypewriterTitle';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { HERO_SOCIAL_LINKS, LINKEDIN_URL, PERSONAL_INFO } from '@/config/social';
-import { fadeInUp, staggerContainerFast } from '@/lib/animations';
+import { fadeInUp, slideInUp, staggerContainerFast } from '@/lib/animations';
 
 export function Hero() {
   const t = useTranslations('hero');
@@ -65,7 +65,7 @@ export function Hero() {
             </motion.h2>
 
             <motion.p
-              variants={fadeInUp}
+              variants={slideInUp}
               className="text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8"
             >
               {t('subtitle')}

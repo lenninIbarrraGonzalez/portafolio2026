@@ -6,9 +6,11 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useState, useCallback, useRef } from 'react';
+import type { MouseEvent, ReactNode, Ref } from 'react';
 import { ProjectModal, type Project } from '@/components/ProjectModal';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { fadeInUp } from '@/lib/animations';
+import { cn } from '@/lib/utils';
 import { useCarouselSelection } from '@/lib/hooks/useCarouselSelection';
 
 const projects = [
@@ -57,7 +59,7 @@ const projects = [
 ];
 
 interface TiltCardProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   onClick?: () => void;
 }
@@ -66,7 +68,7 @@ function TiltCard({ children, className = '', onClick }: TiltCardProps) {
   const cardRef = useRef<HTMLElement>(null);
   const [transform, setTransform] = useState('');
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+  const handleMouseMove = (e: MouseEvent<HTMLElement>) => {
     if (!cardRef.current) return;
 
     const rect = cardRef.current.getBoundingClientRect();
@@ -87,8 +89,8 @@ function TiltCard({ children, className = '', onClick }: TiltCardProps) {
   };
 
   const sharedProps = {
-    ref: cardRef as React.Ref<HTMLButtonElement & HTMLDivElement>,
-    className: `tilt-card ${className}`,
+    ref: cardRef as Ref<HTMLButtonElement & HTMLDivElement>,
+    className: cn('tilt-card', className),
     onMouseMove: handleMouseMove,
     onMouseLeave: handleMouseLeave,
     style: { transform, transition: 'transform 0.1s ease-out' },
@@ -171,11 +173,10 @@ export function ProjectsCarousel() {
                     onClick={() => handleProjectClick(project)}
                   >
                     <motion.article
-                      className={`bg-card rounded-xl border border-border overflow-hidden transition-all duration-300 ${
-                        index === selectedIndex
-                          ? 'scale-100 opacity-100'
-                          : 'scale-95 opacity-70'
-                      }`}
+                      className={cn(
+                      'bg-card rounded-xl border border-border overflow-hidden transition-all duration-300',
+                      index === selectedIndex ? 'scale-100 opacity-100' : 'scale-95 opacity-70'
+                    )}
                       whileHover={{ y: -10 }}
                     >
                       {/* Project Image */}
@@ -228,6 +229,7 @@ export function ProjectsCarousel() {
           <div className="flex justify-center gap-4 mt-8">
             <MagneticButton
               onClick={scrollPrev}
+              aria-label="Previous slide"
               className="p-3 bg-card border border-border rounded-full hover:bg-secondary transition-colors disabled:opacity-50"
               strength={0.2}
             >
@@ -240,11 +242,12 @@ export function ProjectsCarousel() {
                 <button
                   key={index}
                   onClick={() => emblaApi?.scrollTo(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  className={cn(
+                    'w-2 h-2 rounded-full transition-all duration-300',
                     index === selectedIndex
                       ? 'w-8 bg-primary'
                       : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                  }`}
+                  )}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
@@ -252,6 +255,7 @@ export function ProjectsCarousel() {
 
             <MagneticButton
               onClick={scrollNext}
+              aria-label="Next slide"
               className="p-3 bg-card border border-border rounded-full hover:bg-secondary transition-colors disabled:opacity-50"
               strength={0.2}
             >

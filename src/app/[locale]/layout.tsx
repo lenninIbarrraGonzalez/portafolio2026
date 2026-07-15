@@ -4,6 +4,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import { ClientWrapper } from '@/components/ClientWrapper';
 import { JsonLd } from '@/components/JsonLd';
 import { routing } from '@/i18n/routing';
+import { cn } from '@/lib/utils';
 import { BASE_URL } from '@/lib/config';
 import {
   buildPersonSchema,
@@ -13,8 +14,8 @@ import {
 } from '@/lib/structured-data';
 import enMessages from '@/messages/en.json';
 import esMessages from '@/messages/es.json';
-import type { Metadata } from 'next';
-import '../globals.css';
+import type { Metadata, ReactNode } from 'next';
+import '@/app/globals.css';
 
 // Typed, build-time access to message content for metadata and structured data.
 // next-intl's runtime getMessages() stays for the client provider only.
@@ -42,7 +43,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const { metadata } = getContent(locale);
 
-  const canonicalUrl = locale === routing.defaultLocale ? BASE_URL : `${BASE_URL}/${locale}`;
+  const canonicalUrl = `${BASE_URL}/${locale}`;
   const ogLocale = locale === 'es' ? 'es_CO' : 'en_US';
   const alternateLocale = locale === 'es' ? 'en_US' : 'es_CO';
 
@@ -60,7 +61,7 @@ export async function generateMetadata({
     alternates: {
       canonical: canonicalUrl,
       languages: {
-        es: BASE_URL,
+        es: `${BASE_URL}/es`,
         en: `${BASE_URL}/en`,
       },
     },
@@ -100,7 +101,7 @@ export default async function LocaleLayout({
   children,
   params,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
@@ -146,7 +147,7 @@ export default async function LocaleLayout({
         <JsonLd schema={buildProjectsItemListSchema(projects)} />
       </head>
       <body
-        className={`${jetbrainsMono.className} antialiased`}
+        className={cn(jetbrainsMono.className, 'antialiased')}
       >
         <NextIntlClientProvider messages={messages}>
           <ClientWrapper>{children}</ClientWrapper>

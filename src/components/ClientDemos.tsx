@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { useCallback, useRef } from 'react';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { fadeInUp } from '@/lib/animations';
+import { cn } from '@/lib/utils';
 import { useCarouselSelection } from '@/lib/hooks/useCarouselSelection';
 
 const demos = [
@@ -67,11 +68,10 @@ export function ClientDemos() {
               {demos.map((demo, index) => (
                 <div key={demo.key} className="embla__slide pl-4">
                   <motion.article
-                    className={`relative rounded-xl overflow-hidden cursor-pointer border border-border transition-all duration-300 ${
-                      index === selectedIndex
-                        ? 'scale-100 opacity-100'
-                        : 'scale-95 opacity-70'
-                    }`}
+                    className={cn(
+                      'relative rounded-xl overflow-hidden cursor-pointer border border-border transition-all duration-300',
+                      index === selectedIndex ? 'scale-100 opacity-100' : 'scale-95 opacity-70'
+                    )}
                     whileHover={{ scale: 1.02, opacity: 1 }}
                     onClick={() => openDemo(demo.url)}
                   >
@@ -114,6 +114,7 @@ export function ClientDemos() {
           <div className="flex justify-center gap-4 mt-8">
             <MagneticButton
               onClick={scrollPrev}
+              aria-label="Previous slide"
               className="p-3 bg-card border border-border rounded-full hover:bg-secondary transition-colors"
               strength={0.2}
             >
@@ -125,11 +126,12 @@ export function ClientDemos() {
                 <button
                   key={index}
                   onClick={() => emblaApi?.scrollTo(index)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
+                  className={cn(
+                    'h-2 rounded-full transition-all duration-300',
                     index === selectedIndex
                       ? 'w-8 bg-primary'
                       : 'w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                  }`}
+                  )}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
@@ -137,6 +139,7 @@ export function ClientDemos() {
 
             <MagneticButton
               onClick={scrollNext}
+              aria-label="Next slide"
               className="p-3 bg-card border border-border rounded-full hover:bg-secondary transition-colors"
               strength={0.2}
             >
