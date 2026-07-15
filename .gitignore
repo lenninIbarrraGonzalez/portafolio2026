@@ -49,3 +49,7 @@ CLAUDE.md
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+/.playwright-mcp/
+
+# claude code tooling artifacts
+/.atl/
