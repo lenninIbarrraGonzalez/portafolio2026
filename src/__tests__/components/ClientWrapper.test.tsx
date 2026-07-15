@@ -1,13 +1,10 @@
-import { render, screen, act, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ClientWrapper } from '@/components/ClientWrapper';
 
-// Mock child components
+// Mock child components. LoadingScreen is now a self-managing overlay: it no
+// longer gates the page behind an onComplete callback.
 jest.mock('@/components/ui/LoadingScreen', () => ({
-  LoadingScreen: ({ onComplete }: { onComplete: () => void }) => {
-    // Call onComplete after a short delay to simulate loading
-    setTimeout(onComplete, 0);
-    return <div data-testid="loading-screen">Loading...</div>;
-  },
+  LoadingScreen: () => <div data-testid="loading-screen">Loading...</div>,
 }));
 
 jest.mock('@/components/ui/CustomCursor', () => ({
@@ -29,14 +26,6 @@ jest.mock('@/components/ThemeProvider', () => ({
 }));
 
 describe('ClientWrapper', () => {
-  beforeEach(() => {
-    jest.useFakeTimers();
-  });
-
-  afterEach(() => {
-    jest.useRealTimers();
-  });
-
   it('renders LoadingScreen component', () => {
     render(
       <ClientWrapper>
@@ -64,41 +53,30 @@ describe('ClientWrapper', () => {
     expect(screen.getByTestId('scroll-progress')).toBeInTheDocument();
   });
 
-  it('renders children after loading completes', async () => {
+  it('renders children immediately, not gated behind the loading screen', () => {
     render(
       <ClientWrapper>
         <div data-testid="child-content">Child Content</div>
       </ClientWrapper>
     );
 
-    // Advance timers to complete loading
-    act(() => {
-      jest.advanceTimersByTime(100);
-    });
-
-    await waitFor(() => {
-      expect(screen.getByTestId('smooth-scroll')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('smooth-scroll')).toBeInTheDocument();
+    expect(screen.getByTestId('child-content')).toBeInTheDocument();
   });
 
-  it('wraps children in SmoothScroll after loading', async () => {
+  it('wraps children in SmoothScroll', () => {
     render(
       <ClientWrapper>
         <div data-testid="child-content">Child Content</div>
       </ClientWrapper>
     );
 
-    act(() => {
-      jest.advanceTimersByTime(100);
-    });
-
-    await waitFor(() => {
-      const smoothScroll = screen.getByTestId('smooth-scroll');
-      expect(smoothScroll).toBeInTheDocument();
-    });
+    const smoothScroll = screen.getByTestId('smooth-scroll');
+    expect(smoothScroll).toBeInTheDocument();
+    expect(smoothScroll).toContainElement(screen.getByTestId('child-content'));
   });
 
-  it('renders multiple children correctly', async () => {
+  it('renders multiple children correctly', () => {
     render(
       <ClientWrapper>
         <div data-testid="child-1">First</div>
@@ -106,12 +84,7 @@ describe('ClientWrapper', () => {
       </ClientWrapper>
     );
 
-    act(() => {
-      jest.advanceTimersByTime(100);
-    });
-
-    await waitFor(() => {
-      expect(screen.getByTestId('smooth-scroll')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('child-1')).toBeInTheDocument();
+    expect(screen.getByTestId('child-2')).toBeInTheDocument();
   });
 });

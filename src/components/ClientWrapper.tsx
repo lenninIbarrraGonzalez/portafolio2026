@@ -1,7 +1,6 @@
 'use client';
 
-import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
-import { useState } from 'react';
+import { MotionConfig } from 'framer-motion';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { CustomCursor } from '@/components/ui/CustomCursor';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
@@ -13,28 +12,20 @@ interface ClientWrapperProps {
 }
 
 export function ClientWrapper({ children }: ClientWrapperProps) {
-  const [isLoading, setIsLoading] = useState(true);
-
   return (
     <ThemeProvider>
       {/* reducedMotion="user" makes Framer Motion honor prefers-reduced-motion
           globally: transform/layout animations are skipped for those users. */}
       <MotionConfig reducedMotion="user">
-        <LoadingScreen onComplete={() => setIsLoading(false)} />
+        {/* Content renders immediately; LoadingScreen is a fixed overlay (z-9999)
+            that fades out on top. This avoids gating the page behind the splash,
+            which previously delayed first paint and caused a large layout shift
+            when children finally mounted. */}
+        <SmoothScroll>{children}</SmoothScroll>
+
+        <LoadingScreen />
         <CustomCursor />
         <ScrollProgress />
-
-        <AnimatePresence mode="wait">
-          {!isLoading && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <SmoothScroll>{children}</SmoothScroll>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </MotionConfig>
     </ThemeProvider>
   );

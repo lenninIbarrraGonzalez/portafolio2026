@@ -69,7 +69,8 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
       });
     }, 200);
 
-    // Show code lines progressively
+    // Show code lines progressively. Paced so all six lines surface within the
+    // ~1200ms splash window below (6 lines x 180ms ≈ 1080ms).
     lineIntervalRef.current = setInterval(() => {
       setCurrentLine((prev) => {
         if (prev < codeLines.length - 1) {
@@ -77,7 +78,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
         }
         return prev;
       });
-    }, 400);
+    }, 180);
 
     // Complete loading
     completeTimeoutRef.current = setTimeout(() => {
@@ -96,7 +97,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
           onCompleteRef.current?.();
         }, 500);
       }, 500);
-    }, 2500);
+    }, 1200);
 
     return clearAllTimers;
   }, [clearAllTimers, codeLines.length]);
