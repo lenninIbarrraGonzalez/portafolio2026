@@ -122,41 +122,6 @@ jest.mock('lenis', () => {
   }));
 });
 
-// Mock @react-three/fiber
-jest.mock('@react-three/fiber', () => ({
-  Canvas: ({ children }: { children: React.ReactNode }) => {
-    const React = require('react');
-    return React.createElement('div', { 'data-testid': 'three-canvas' }, children);
-  },
-  useFrame: jest.fn(),
-  useThree: () => ({
-    size: { width: 800, height: 600 },
-    camera: {},
-    gl: {},
-    scene: {},
-  }),
-  extend: jest.fn(),
-}));
-
-// Mock @react-three/drei
-jest.mock('@react-three/drei', () => ({
-  OrbitControls: () => null,
-  PerspectiveCamera: () => null,
-  Environment: () => null,
-  Float: ({ children }: { children: React.ReactNode }) => children,
-  Html: ({ children }: { children: React.ReactNode }) => {
-    const React = require('react');
-    return React.createElement('div', null, children);
-  },
-  Text: () => null,
-  useTexture: () => ({}),
-  Sphere: () => null,
-  Box: () => null,
-  Torus: () => null,
-  MeshDistortMaterial: () => null,
-  Trail: ({ children }: { children: React.ReactNode }) => children,
-  Line: () => null,
-}));
 
 // Mock embla-carousel-react
 jest.mock('embla-carousel-react', () => {

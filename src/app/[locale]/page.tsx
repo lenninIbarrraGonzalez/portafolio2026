@@ -1,16 +1,23 @@
+import dynamic from 'next/dynamic';
 import { setRequestLocale } from 'next-intl/server';
+import { routing } from '@/i18n/routing';
 import { About } from '@/components/About';
-import { CallToAction } from '@/components/CallToAction';
 import { ClientDemos } from '@/components/ClientDemos';
-import { Education } from '@/components/Education';
 import { Experience } from '@/components/Experience';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
 import { ProjectsCarousel } from '@/components/ProjectsCarousel';
-import { Skills } from '@/components/Skills';
-import { Testimonials } from '@/components/Testimonials';
 import { ScrollToTop } from '@/components/ui/ScrollToTop';
+
+const Education = dynamic(() => import('@/components/Education').then((m) => m.Education));
+const Skills = dynamic(() => import('@/components/Skills').then((m) => m.Skills));
+const Testimonials = dynamic(() => import('@/components/Testimonials').then((m) => m.Testimonials));
+const CallToAction = dynamic(() => import('@/components/CallToAction').then((m) => m.CallToAction));
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 export default async function Home({
   params,
