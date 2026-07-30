@@ -364,6 +364,12 @@
       },
       "processflow": {
         "title": "ProcessFlow"
+      },
+      "scrollytelling": {
+        "title": "Café Colombiano — Evolución de la Producción"
+      },
+      "formengine": {
+        "title": "Form Engine"
       }
     }
   },

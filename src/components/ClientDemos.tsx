@@ -19,6 +19,8 @@ const demos = [
   { key: 'parkink', image: '/images/demos/parkinksas.png', url: 'https://parkingv2-lake.vercel.app/' },
   { key: 'gestiondocumental', image: '/images/demos/gestiondocumental.png', url: 'https://gestion-documental-rose.vercel.app/login' },
   { key: 'processflow', image: '/images/demos/processflow.png', url: 'https://processflowiswo.vercel.app/' },
+  { key: 'scrollytelling', image: '/images/demos/scrollytelling.png', url: 'https://scrollytelling-blush.vercel.app/' },
+  { key: 'formengine', image: '/images/demos/formengine.png', url: 'https://form-engine-pi.vercel.app/' },
 ];
 
 export function ClientDemos() {
