@@ -14,7 +14,8 @@ import {
 } from '@/lib/structured-data';
 import enMessages from '@/messages/en.json';
 import esMessages from '@/messages/es.json';
-import type { Metadata, ReactNode } from 'next';
+import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 import '@/app/globals.css';
 
 // Typed, build-time access to message content for metadata and structured data.
